@@ -1,0 +1,202 @@
+.sap-input-container {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+  }
+  
+  .sap-input-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  
+  .sap-input-required {
+    color: red;
+    margin-left: 4px;
+    font-weight: bold;
+  }
+  
+  .sap-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  /*Default*/
+  .sap-input-default{
+    border-bottom: 2px solid #556B81;
+    border-top: 1px solid #556b825d ;
+    border-right: 1px solid #556b825d ;
+    border-left: 1px solid #556b825d ;
+  }
+
+  .sap-input-default:disabled:hover{
+    border-bottom: 2px solid #556B81;
+    border-top: 1px solid #556b825d ;
+    border-right: 1px solid #556b825d ;
+    border-left: 1px solid #556b825d ;
+  }
+
+  .sap-input-default:hover{
+    border-bottom: 2px solid #0064D9;
+    border-top: 1px solid #68aeff7a ;
+    border-right: 1px solid #68aeff7a ;
+    border-left: 1px solid #68aeff7a ;
+  }
+
+  /* .sap-input-default:focus-visible{
+    border: 2px solid #0032A5;
+  } */
+
+  .sap-input-default-readOnly:disabled{
+    border-color: #EAECEE;
+    color: #000;
+    border-bottom: 1px dashed #556B81;
+  }
+
+  .sap-input-default-readOnly:disabled:hover{
+    border-bottom: 1px dashed #556B81;
+    border-top: 1px solid #EAECEE ;
+    border-right: 1px solid #EAECEE ;
+    border-left: 1px solid #EAECEE ;
+    
+  }
+
+  /*Error*/
+  .sap-input-error{
+    background-color: #FFEAF4;
+    color: #000;
+    border-bottom: 2px solid #E90B0B;
+    border-top: 1px solid #ff8fc545 ;
+    border-right: 1px solid #ff8fc545 ;
+    border-left: 1px solid #ff8fc545 ;
+  }
+
+  .sap-input-error:hover{
+    background-color: #fff;
+    border-bottom: 2px solid #E90B0B;
+    border-top: 1px solid #ff8fc545 ;
+    border-right: 1px solid #ff8fc545 ;
+    border-left: 1px solid #ff8fc545 ;
+  }
+
+  .sap-input-error:active, .sap-input-error:focus, .sap-input-error:focus-visible{
+    background-color: #fff;
+    border: 2px solid #E90B0B !important;
+  }
+
+   .sap-input-error:focus-visible{
+    background-color: #fff;
+    border: 2px solid #E90B0B !important;
+  }
+
+  .sap-input-error:focus-visible{
+    background-color: #fff;
+    border: 2px solid #E90B0B !important;
+  }
+
+  /*Warning*/
+  .sap-input-warning{
+    background-color: #FFF8D6;
+    color: #000;
+    border-bottom: 2px solid #DD6100;
+    border-top: 1px solid #ffd60a40 ;
+    border-right: 1px solid #ffd60a40 ;
+    border-left: 1px solid #ffd60a40 ;
+  }
+
+  .sap-input-warning:hover{
+    background-color: #fff;
+    border-bottom: 2px solid #DD6100;
+    border-top: 1px solid #ffd60a40 ;
+    border-right: 1px solid #ffd60a40 ;
+    border-left: 1px solid #ffd60a40 ;
+  }
+
+  .sap-input-warning:active{
+    background-color: #fff;
+    border: 2px solid #DD6100 !important;
+  }
+
+  .sap-input-warning:focus{
+    background-color: #fff;
+    border: 2px solid #DD6100 !important;
+  }
+
+  .sap-input-warning:focus-visible{
+    background-color: #fff;
+    border: 2px solid #DD6100 !important;
+  }
+
+  
+
+  /*Success*/
+  .sap-input-success{
+    background-color: #F5FAE5;
+    color: #000;
+    border-bottom: 2px solid #30914C;
+    border-top: 1px solid #30914c15 ;
+    border-right: 1px solid #30914c15 ;
+    border-left: 1px solid #30914c15 ;
+  }
+
+  .sap-input-success:hover{
+    background-color: #fff;
+    color: #000;
+    border-bottom: 2px solid #30914C;
+    border-top: 1px solid #30914c15 ;
+    border-right: 1px solid #30914c15 ;
+    border-left: 1px solid #30914c15 ;
+  }
+
+  .sap-input-success:active{
+    background-color: #fff;
+    border: 2px solid #30914C !important;
+  }
+
+  .sap-input-success:focus{
+    background-color: #fff;
+    border: 2px solid #30914C !important;
+  }
+ .sap-input-success:focus-visible{
+    background-color: #fff;
+    border: 2px solid #30914C !important;
+  }
+
+
+
+  /*Information*/
+  .sap-input-information{
+    background-color: #E1F4FF;
+    color: #000;
+    border-bottom: 2px solid #0070F2;
+    border-top: 1px solid #68aeff50 ;
+    border-right: 1px solid #68aeff50 ;
+    border-left: 1px solid #68aeff50 ;
+  }
+
+  .sap-input-information:hover{
+    background-color: #fff;
+    color: #000;
+    border-bottom: 2px solid #0070F2;
+    border-top: 1px solid #68aeff50 ;
+    border-right: 1px solid #68aeff50 ;
+    border-left: 1px solid #68aeff50 ;
+  }
+
+  .sap-input-information:active{
+    background-color: #fff;
+    border: 2px solid #0070F2 !important;
+  }
+
+  .sap-input-information:focus{
+    background-color: #fff;
+    border: 2px solid #0070F2 !important;
+  }
+
+  .sap-input-information:focus-visible{
+    background-color: #fff;
+    border: 2px solid #0070F2 !important;
+  }
+  
+  
