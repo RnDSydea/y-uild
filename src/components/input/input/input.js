@@ -7,7 +7,7 @@ const Input = ({ value, onChange, placeholder = '', label = '', required = false
   return (
     <div className={`${theme}-input-container`}>
       {label && (
-        <label className={`${theme}-input-label`}>
+        <label className={`${theme}-input-label-${variant}`}>
           {label}
           {required && <span className={`${theme}-input-required`}>*</span>}
         </label>
