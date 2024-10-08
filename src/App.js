@@ -401,76 +401,239 @@ function App() {
         <br/> 
         <hr/> 
 
+      <h1>Radio Buttons in Stile SAP</h1>
+      <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+         <h4>Normal </h4>
+          <RadioButton label="Default" theme="sap" />
+          <RadioButton label="Checked" theme="sap" checked/>
+          <RadioButton label="Disabled" theme="sap" disabled />
+          <RadioButton label="Read Only" theme="sap" disabled variant='readOnly'/>
+        </div>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status </h4>
+          <RadioButton label="Error" theme="sap" variant='error' />
+          <RadioButton label="Success" theme="sap" variant='success'/>
+          <RadioButton label="warning" theme="sap" variant='warning'/>
+          <RadioButton label="Information" theme="sap" variant='information'/>
+        </div>
+
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status Checked </h4>
+          <RadioButton label="Error" theme="sap" checked  variant='error' />
+          <RadioButton label="Success" theme="sap" checked variant='success'/>
+          <RadioButton label="warning" theme="sap" checked variant='warning'/>
+          <RadioButton label="Information" theme="sap" checked variant='information'/>
+        </div>
+      </div>
+      <h1>Radio Buttons in Stile Material UI</h1>
+      <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+         <h4>Normal </h4>
+          <RadioButton label="Default" theme="material" />
+          <RadioButton label="Checked" theme="material" checked/>
+          <RadioButton label="Disabled" theme="material" disabled />
+          <RadioButton label="Read Only" theme="material" disabled variant='readOnly'/>
+        </div>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status </h4>
+          <RadioButton label="Error" theme="material" variant='error' />
+          <RadioButton label="Success" theme="material" variant='success'/>
+          <RadioButton label="Warning" theme="material" variant='warning'/>
+          <RadioButton label="Information" theme="material" variant='information'/>
+        </div>
+
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status Checked </h4>
+          <RadioButton label="Error" theme="material" checked  variant='error' />
+          <RadioButton label="Success" theme="material" checked variant='success'/>
+          <RadioButton label="Warning" theme="material" checked variant='warning'/>
+          <RadioButton label="Information" theme="material" checked variant='information'/>
+        </div>
+      </div>
+       <br/> 
+        <hr/> 
+
+      <h1>Checkbox in Stile SAP</h1>
+      <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+         <h4>Normal </h4>
+          <Checkbox label="Default" theme="sap" />
+          <Checkbox label="Checked" theme="sap" checked/>
+          <Checkbox label="Disabled" theme="sap" disabled />
+          <Checkbox label="Read Only" theme="sap" disabled variant='readOnly'/>
+        </div>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status </h4>
+          <Checkbox label="Error" theme="sap" variant='error' />
+          <Checkbox label="Success" theme="sap" variant='success'/>
+          <Checkbox label="warning" theme="sap" variant='warning'/>
+          <Checkbox label="Information" theme="sap" variant='information'/>
+        </div>
+
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status Checked </h4>
+          <Checkbox label="Error" theme="sap" checked  variant='error' />
+          <Checkbox label="Success" theme="sap" checked variant='success'/>
+          <Checkbox label="warning" theme="sap" checked variant='warning'/>
+          <Checkbox label="Information" theme="sap" checked variant='information'/>
+        </div>
+      </div>
+      <h1>Checkbox in Stile Material UI</h1>
+      <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+         <h4>Normal </h4>
+          <Checkbox label="Default" theme="material" />
+          <Checkbox label="Checked" theme="material" checked/>
+          <Checkbox label="Disabled" theme="material" disabled />
+          <Checkbox label="Read Only" theme="material" disabled variant='readOnly'/>
+        </div>
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status </h4>
+          <Checkbox label="Error" theme="material" variant='error' />
+          <Checkbox label="Success" theme="material" variant='success'/>
+          <Checkbox label="Warning" theme="material" variant='warning'/>
+          <Checkbox label="Information" theme="material" variant='information'/>
+        </div>
+
+        <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h4>Status Checked </h4>
+          <Checkbox label="Error" theme="material" checked  variant='error' />
+          <Checkbox label="Success" theme="material" checked variant='success'/>
+          <Checkbox label="Warning" theme="material" checked variant='warning'/>
+          <Checkbox label="Information" theme="material" checked variant='information'/>
+        </div>
+      </div>
+      <br/> 
+      <hr/>
+
+      <h1>Select in Stile SAP</h1>
+      <div className='select-container'>
+      <Select 
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="default" 
         theme="sap"
-        variant="default"
       />
-      <Input 
-        label="Not required" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false} 
+      <Select 
+        label='Label'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="default" 
         theme="sap"
-        variant="default"
       />
-       <Input 
-        label="Disabled" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false}
+      <Select 
+        label='Disabled'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="disabled" 
+        theme="sap"
         disabled={true}
-        theme="sap"
-        variant="default"
       />
-       <Input 
-        label="Read Only" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false} 
+      <Select 
+        label='Read Only'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="readOnly" 
+        theme="sap"
         disabled={true}
         readOnly={true}
-        theme="sap"
-        variant="default"
       />
-       <Input 
-        label="Error" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false} 
+      <Select 
+        label='Error'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="error" 
         theme="sap"
-        variant="error"
       />
-       <Input 
-        label="Success" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false} 
+      <Select 
+        label='Success'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="success" 
         theme="sap"
-        variant="success"
       />
-      <Input 
-        label="Warning" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false} 
+      <Select 
+        label='Warning'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="warning" 
         theme="sap"
-        variant="warning"
       />
-      <Input 
-        label="Information" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        placeholder="Enter your email" 
-        required={false}
+      <Select 
+        label='Information'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="information" 
         theme="sap"
-        variant="information"
       />
+      </div>
+
+      <h1>Select in Stile Material</h1>
+      <div className='select-container'>
+      <Select 
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="default" 
+        theme="material"
+      />
+      <Select 
+        label='Label'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="default" 
+        theme="material"
+      />
+      <Select 
+        label='Disabled'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="disabled" 
+        theme="material"
+        disabled={true}
+      />
+      <Select 
+        label='Read Only'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="readOnly" 
+        theme="material"
+        disabled={true}
+      />
+      <Select 
+        label='Error'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="error" 
+        theme="material"
+      />
+      <Select 
+        label='Success'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="success" 
+        theme="material"
+      />
+      <Select 
+        label='Warning'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="warning" 
+        theme="material"
+      />
+      <Select 
+        label='Information'
+        options={options} 
+        onChange={handleSelectChange} 
+        variant="information" 
+        theme="material"
+      />
+     </div> 
+
+     
     </div>
+
+    
     
   );
 }
