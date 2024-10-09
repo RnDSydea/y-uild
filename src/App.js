@@ -5,7 +5,9 @@ import TextArea from './components/input/textArea/textArea';
 import RadioButton from './components/input/radio/radio';
 import Checkbox from './components/input/checkbox/checkbox';
 import Select from './components/input/select/select';
-import './App.css';
+import Toast from './components/input/toast/toast';
+import Card from './components/input/card/card';
+import './App.css'
 
 function App() {
   // Inizializza lo stato come un oggetto con una chiave per ogni input/textarea
@@ -63,18 +65,44 @@ function App() {
     console.log('Selected value:', e.target.value);
   };
 
+  // Stato per gestire la visibilità del toast
+  const [showToastSap, setShowToastSap] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  // Funzione per mostrare il toast
+  const handleShowToastSap = () => {
+    setShowToastSap(true);
+    
+    setTimeout(() => {
+      setShowToastSap(false);
+    }, 3000); 
+  }
+
+  // Stato per gestire la visibilità del toast
+  
+
+  // Funzione per mostrare il toast
+  const handleShowToast = () => {
+    setShowToast(true);
+    
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000); 
+  }
+  
+
 
   return (
     <div style={{ padding: '20px' }}>
       <h1>Pulsanti in Stile SAP</h1>
       <h4>Normal</h4>
       <div style={{display:'flex', gap:'20px'}} >
-      <Button label="Primary" onClick={() => alert('Button clicked!')} />
-      <Button label="Secondary" onClick={() => alert('Button clicked!')} variant="secondary"/>
-      <Button label="Tertiary" onClick={() => alert('Button clicked!')} variant="tertiary"/>  
-      <Button label="Success" variant="success"/>  
-      <Button label="error" variant="error"/>  
-      <Button label="Warning" variant="warning"/>  <br></br>
+        <Button label="Primary" onClick={() => alert('Button clicked!')} />
+        <Button label="Secondary" onClick={() => alert('Button clicked!')} variant="secondary"/>
+        <Button label="Tertiary" onClick={() => alert('Button clicked!')} variant="tertiary"/>  
+        <Button label="Success" variant="success"/>  
+        <Button label="error" variant="error"/>  
+        <Button label="Warning" variant="warning"/>  <br></br>
       </div>
       <h4>Disabled</h4>
       <div style={{display:'flex', gap:'20px'}} >
@@ -257,9 +285,8 @@ function App() {
           variant="information"
         />
       </div>
-
-        <h1>Text Area in Stile Sap UI</h1>
-        <div className='textarea-container'>
+      <h1>Text Area in Stile Sap UI</h1>
+      <div className='textarea-container'>
         <TextArea
           label="Required"
           value={inputValues.sapTextAreaRequired}
@@ -289,9 +316,9 @@ function App() {
           theme="sap"
           variant="default"
         />
-        </div>
-        <br/>
-        <div className='textarea-container-second-row '>
+      </div>
+      <br/>
+      <div className='textarea-container-second-row '>
         <TextArea
           label="Error"
           value={inputValues.sapTextAreaError}
@@ -324,10 +351,10 @@ function App() {
           theme="sap"
           variant="information"
         />
-        </div>
+      </div>
 
-        <h1>Text Area in Stile Material UI</h1>
-        <div className='textarea-container'>
+      <h1>Text Area in Stile Material UI</h1>
+      <div className='textarea-container'>
         <TextArea
           label="Required"
           value={inputValues.materialTextAreaRequired}
@@ -357,9 +384,9 @@ function App() {
           theme="material"
           variant="default"
         />
-        </div>
-        <br/>
-        <div className="textarea-container-second-row ">
+      </div>
+      <br/>
+      <div className="textarea-container-second-row ">
         <TextArea
           label="Error"
           value={inputValues.materialTextAreaError}
@@ -396,30 +423,28 @@ function App() {
           theme="material"
           variant="information"
         />
-        </div>
-
-        <br/> 
-        <hr/> 
+      </div>
+      <br/> 
+      <hr/> 
 
       <h1>Radio Buttons in Stile SAP</h1>
       <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
         <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-         <h4>Normal </h4>
+          <h4>Normal </h4>
           <RadioButton label="Default" theme="sap" />
           <RadioButton label="Checked" theme="sap" checked/>
           <RadioButton label="Disabled" theme="sap" disabled />
           <RadioButton label="Read Only" theme="sap" disabled variant='readOnly'/>
         </div>
         <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <h4>Status </h4>
+          <h4>Status </h4>
           <RadioButton label="Error" theme="sap" variant='error' />
           <RadioButton label="Success" theme="sap" variant='success'/>
           <RadioButton label="warning" theme="sap" variant='warning'/>
           <RadioButton label="Information" theme="sap" variant='information'/>
         </div>
-
         <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <h4>Status Checked </h4>
+          <h4>Status Checked </h4>
           <RadioButton label="Error" theme="sap" checked  variant='error' />
           <RadioButton label="Success" theme="sap" checked variant='success'/>
           <RadioButton label="warning" theme="sap" checked variant='warning'/>
@@ -429,14 +454,14 @@ function App() {
       <h1>Radio Buttons in Stile Material UI</h1>
       <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
         <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-         <h4>Normal </h4>
+          <h4>Normal </h4>
           <RadioButton label="Default" theme="material" />
           <RadioButton label="Checked" theme="material" checked/>
           <RadioButton label="Disabled" theme="material" disabled />
           <RadioButton label="Read Only" theme="material" disabled variant='readOnly'/>
         </div>
         <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <h4>Status </h4>
+          <h4>Status </h4>
           <RadioButton label="Error" theme="material" variant='error' />
           <RadioButton label="Success" theme="material" variant='success'/>
           <RadioButton label="Warning" theme="material" variant='warning'/>
@@ -444,15 +469,15 @@ function App() {
         </div>
 
         <div className="radio-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <h4>Status Checked </h4>
+          <h4>Status Checked </h4>
           <RadioButton label="Error" theme="material" checked  variant='error' />
           <RadioButton label="Success" theme="material" checked variant='success'/>
           <RadioButton label="Warning" theme="material" checked variant='warning'/>
           <RadioButton label="Information" theme="material" checked variant='information'/>
         </div>
       </div>
-       <br/> 
-        <hr/> 
+      <br/> 
+      <hr/> 
 
       <h1>Checkbox in Stile SAP</h1>
       <div className="radio-main-container" style={{ display: 'flex', flexDirection: 'row',gap:'25px' }}>
@@ -509,129 +534,245 @@ function App() {
 
       <h1>Select in Stile SAP</h1>
       <div className='select-container'>
-      <Select 
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="default" 
-        theme="sap"
-      />
-      <Select 
-        label='Label'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="default" 
-        theme="sap"
-      />
-      <Select 
-        label='Disabled'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="disabled" 
-        theme="sap"
-        disabled={true}
-      />
-      <Select 
-        label='Read Only'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="readOnly" 
-        theme="sap"
-        disabled={true}
-        readOnly={true}
-      />
-      <Select 
-        label='Error'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="error" 
-        theme="sap"
-      />
-      <Select 
-        label='Success'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="success" 
-        theme="sap"
-      />
-      <Select 
-        label='Warning'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="warning" 
-        theme="sap"
-      />
-      <Select 
-        label='Information'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="information" 
-        theme="sap"
-      />
+        <Select 
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="default" 
+          theme="sap"
+        />
+        <Select 
+          label='Label'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="default" 
+          theme="sap"
+        />
+        <Select 
+          label='Disabled'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="disabled" 
+          theme="sap"
+          disabled={true}
+        />
+        <Select 
+          label='Read Only'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="readOnly" 
+          theme="sap"
+          disabled={true}
+          readOnly={true}
+        />
+        <Select 
+          label='Error'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="error" 
+          theme="sap"
+        />
+        <Select 
+          label='Success'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="success" 
+          theme="sap"
+        />
+        <Select 
+          label='Warning'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="warning" 
+          theme="sap"
+        />
+        <Select 
+          label='Information'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="information" 
+          theme="sap"
+        />
       </div>
 
       <h1>Select in Stile Material</h1>
       <div className='select-container'>
-      <Select 
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="default" 
-        theme="material"
-      />
-      <Select 
-        label='Label'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="default" 
-        theme="material"
-      />
-      <Select 
-        label='Disabled'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="disabled" 
-        theme="material"
-        disabled={true}
-      />
-      <Select 
-        label='Read Only'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="readOnly" 
-        theme="material"
-        disabled={true}
-      />
-      <Select 
-        label='Error'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="error" 
-        theme="material"
-      />
-      <Select 
-        label='Success'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="success" 
-        theme="material"
-      />
-      <Select 
-        label='Warning'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="warning" 
-        theme="material"
-      />
-      <Select 
-        label='Information'
-        options={options} 
-        onChange={handleSelectChange} 
-        variant="information" 
-        theme="material"
-      />
-     </div> 
+        <Select 
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="default" 
+          theme="material"
+        />
+        <Select 
+          label='Label'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="default" 
+          theme="material"
+        />
+        <Select 
+          label='Disabled'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="disabled" 
+          theme="material"
+          disabled={true}
+        />
+        <Select 
+          label='Read Only'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="readOnly" 
+          theme="material"
+          disabled={true}
+        />
+        <Select 
+          label='Error'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="error" 
+          theme="material"
+        />
+        <Select 
+          label='Success'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="success" 
+          theme="material"
+        />
+        <Select 
+          label='Warning'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="warning" 
+          theme="material"
+        />
+        <Select 
+          label='Information'
+          options={options} 
+          onChange={handleSelectChange} 
+          variant="information" 
+          theme="material"
+        />
+      </div> 
+      <br/> 
+      <hr/>
 
-     
+      <h1>Toast in Stile SAP</h1>
+      <div style={{display:'flex', gap:"1.5rem"}}>
+        <Toast 
+          message={"Standard message short text"}
+          variant='default'
+          theme='sap'
+        />
+
+        <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowToast}>
+          Mostra Toast
+        </p>
+
+        {showToast && (
+          <Toast 
+            message="Operazione completata con successo!" 
+            variant="success" 
+            theme="sap" 
+            position="top-right" 
+          />
+        )}
+      </div>
+      <br/>
+      <div className='toast-container'>
+        <Toast 
+          message={"Error message short text"}
+          variant='error'
+          theme='sap'
+        />
+        <Toast 
+          message={"Warning message short text "}
+          variant='warning'
+          theme='sap'
+        />
+        <Toast 
+          message={"Success message short text "}
+          variant='success'
+          theme='sap'
+        />
+        <Toast 
+          message={"Information message short text "}
+          variant='information'
+          theme='sap'
+        />
+      </div>
+
+      <h1>Toast in Stile Material UI</h1>
+      <div style={{display:'flex', gap:"1.5rem"}}>
+        <Toast 
+          message={"Standard message short text"}
+          variant='default'
+          theme='material'
+        />
+        <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowToastSap}>
+          Mostra Toast
+        </p>
+
+        {showToastSap && (
+          <Toast 
+            message="Operazione completata con successo!" 
+            variant="success" 
+            theme="material" 
+            position="top-right" 
+          />
+        )}
+        </div>
+        <br/>
+        <div className='toast-container'>
+          <Toast 
+            message={"Error message short text"}
+            variant='error'
+            theme='material'
+          />
+          <Toast 
+            message={"Warning message short text "}
+            variant='warning'
+            theme='material'
+          />
+          <Toast 
+            message={"Success message short text "}
+            variant='success'
+            theme='material'
+          />
+          <Toast 
+            message={"Information message short text "}
+            variant='information'
+            theme='material'
+          />
+        </div>
+        <h1>Card in Stile Sap</h1>
+        <Card
+          header={<h2>Titolo della Card</h2>}
+          body={<p>Questo è il contenuto della card.</p>}
+          footer={
+            <div>
+            <Button label="Accetta"></Button>
+            <Button variant='tertiary' label="Rifiiuta"></Button>
+            </div>
+        }
+          variant="default"
+          theme="sap"
+        />
+
+        <h1>Card in Stile Material UI</h1>
+        <Card
+          header={<h2>Titolo della Card</h2>}
+          body={<p>Questo è il contenuto della card.</p>}
+          footer={
+            <div>
+            <Button theme="material" variant="tertiary" label="Accetta"></Button>
+            <Button theme="material" variant='tertiary' label="Rifiuta"></Button>
+            </div>
+        }
+          theme="material"
+        />
     </div>
+      
 
     
     
