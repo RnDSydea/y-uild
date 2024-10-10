@@ -7,6 +7,10 @@ import Checkbox from './components/input/checkbox/checkbox';
 import Select from './components/input/select/select';
 import Toast from './components/input/toast/toast';
 import Card from './components/input/card/card';
+import YuildHeader from './components/input/yUildHeader/yUildHeader';
+import YuildBody from './components/input/yUildBody/yUildBody';
+import YuildFooter from './components/input/yUildFooter/yUildFooter';
+import Alert from './components/input/alert/alert';
 import './App.css'
 
 function App() {
@@ -60,7 +64,7 @@ function App() {
     { value: 'option3', label: 'Option 3' },
   ];
 
-  // Funzione che gestisce il cambiamento dell'opzione selezionata
+  
   const handleSelectChange = (e) => {
     console.log('Selected value:', e.target.value);
   };
@@ -68,6 +72,7 @@ function App() {
   // Stato per gestire la visibilità del toast
   const [showToastSap, setShowToastSap] = useState(false);
   const [showToast, setShowToast] = useState(false);
+
 
   // Funzione per mostrare il toast
   const handleShowToastSap = () => {
@@ -77,11 +82,7 @@ function App() {
       setShowToastSap(false);
     }, 3000); 
   }
-
-  // Stato per gestire la visibilità del toast
   
-
-  // Funzione per mostrare il toast
   const handleShowToast = () => {
     setShowToast(true);
     
@@ -89,6 +90,16 @@ function App() {
       setShowToast(false);
     }, 3000); 
   }
+
+  const [showAlertSap, setShowAlertSap] = useState(false);
+  const handleShowAlertSap = () => {
+    setShowAlertSap(true);
+  }
+
+  const handleHideAlertSap = () => {
+    setShowAlertSap(false);
+  }
+
   
 
 
@@ -721,7 +732,7 @@ function App() {
             position="top-right" 
           />
         )}
-        </div>
+      </div>
         <br/>
         <div className='toast-container'>
           <Toast 
@@ -745,32 +756,69 @@ function App() {
             theme='material'
           />
         </div>
+        <br/>
+        <hr/>
         <h1>Card in Stile Sap</h1>
         <Card
-          header={<h2>Titolo della Card</h2>}
-          body={<p>Questo è il contenuto della card.</p>}
-          footer={
-            <div>
-            <Button label="Accetta"></Button>
-            <Button variant='tertiary' label="Rifiiuta"></Button>
-            </div>
-        }
           variant="default"
           theme="sap"
-        />
+        >
+          <YuildHeader>
+            <h2>Titolo della Card</h2>
+          </YuildHeader>
+          <YuildBody>
+            <p>Questo è il contenuto della card.</p>
+          </YuildBody>
+          <YuildFooter> 
+            <div>
+              <Button label="Accetta"></Button>
+            < Button variant='tertiary' label="Rifiuta"></Button>
+             </div>
+          </YuildFooter>
+        </Card>
 
         <h1>Card in Stile Material UI</h1>
         <Card
-          header={<h2>Titolo della Card</h2>}
-          body={<p>Questo è il contenuto della card.</p>}
-          footer={
-            <div>
-            <Button theme="material" variant="tertiary" label="Accetta"></Button>
-            <Button theme="material" variant='tertiary' label="Rifiuta"></Button>
-            </div>
-        }
+          variant="default"
           theme="material"
-        />
+        >
+          <YuildHeader >
+            <h2>Titolo della Card</h2>
+          </YuildHeader>
+          <YuildBody>
+            <p>Questo è il contenuto della card.</p>
+          </YuildBody>
+          <YuildFooter> 
+            <div>
+              <Button variant="tertiary" label="Accetta" theme='material'></Button>
+            < Button variant='tertiary' label="Rifiuta" theme="material"></Button>
+             </div>
+          </YuildFooter>
+        </Card>
+        <br/>
+        <hr/>
+        <h1>Alert in Stile Sap </h1>
+        <div style={{display:'flex', gap:"1.5rem"}}>
+          
+        <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowAlertSap} >
+          Mostra Alert
+        </p>
+        {
+          showAlertSap && (
+          <Alert
+            variant="default"
+            theme='sap'
+            header={<h2>Header dell'Alert</h2>}
+            body={<div>Questo è un messaggio di alert</div>}
+            footer={
+              < Button label="Chiudi" theme="sap" onClick={handleHideAlertSap}></Button>
+            }
+          />
+        )}
+
+       
+      </div>
+        
     </div>
       
 

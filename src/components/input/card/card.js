@@ -1,18 +1,16 @@
 import React from 'react';
 import './card.css';
+import { ThemeProvider } from './themeContext';
 
-const Card = ({ header, body, footer, theme = 'sap' }) => {
+const Card = ({ theme = 'sap', children }) => {
   const cardClass = `${theme}-card`;
-  const headerClass = `${theme}-card-header`;
-  const bodyClass = `${theme}-card-body`;
-  const footerClass = `${theme}-card-footer`;
 
   return (
-    <div className={cardClass}>
-      {header && <div className={headerClass}>{header}</div>}
-      {body && <div className={bodyClass}>{body}</div>}
-      {footer && <div className={footerClass}>{footer}</div>}
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className={cardClass}>
+        {children}
+      </div>
+    </ThemeProvider>
   );
 };
 

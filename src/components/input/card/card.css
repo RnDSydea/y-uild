@@ -4,27 +4,7 @@
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 50vw;
-  }
-  
-  .sap-card-header {
-    background-color: #fff;
-    padding: 5px 10px;
-    border-bottom: 1px solid #ddd;
-
-  }
-  
-  .sap-card-body {
-    padding: 30px 15px;
-  }
-  
-  .sap-card-footer {
-    background-color: #fff;
-    padding: 16px;
-    border-top: 1px solid #ddd;
-    text-align: right;
-    
-    gap: 20px;
-  }
+}
 
 .material-card {
     border: 1px solid #e8eaee;
@@ -32,21 +12,11 @@
     overflow: hidden;
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
     width: 50vw;
-  }
+}
   
-  .material-card-header { 
-    padding: 5px 10px;
-  }
   
-  .material-card-body {
-    padding: 30px 15px;
-  }
+
   
-  .material-card-footer {
-    padding: 16px;
-    text-align: left;
-    gap: 20px;
-  }
   
   
   
