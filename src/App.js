@@ -12,6 +12,7 @@ import YuildBody from './components/input/yUildBody/yUildBody';
 import YuildFooter from './components/input/yUildFooter/yUildFooter';
 import Alert from './components/input/alert/alert';
 import './App.css'
+import Dialog from './components/input/dialog/dialog';
 
 function App() {
   // Inizializza lo stato come un oggetto con una chiave per ogni input/textarea
@@ -69,7 +70,6 @@ function App() {
     console.log('Selected value:', e.target.value);
   };
 
-  // Stato per gestire la visibilità del toast
   const [showToastSap, setShowToastSap] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -100,7 +100,44 @@ function App() {
     setShowAlertSap(false);
   }
 
-  
+  const [showAlertMaterial, setShowAlertMaterial] = useState(false);
+
+  const handleShowAlertMaterial = () => {
+    setShowAlertMaterial(true);
+  }
+
+  const handleAlertClose = (actionType) => {
+    setShowAlertMaterial(false);
+    // console.log(`Azione di chiusura: ${actionType}`);
+    
+    // if (actionType === 'confirm') {
+    //  console.log("Hai cliccato il pulsante conferma");
+    // } else if (actionType === 'cancel') {
+    //   console.log("Hai cliccato il pulsante cancella");
+
+    // } else if (actionType === 'click-outside') {
+    //   console.log("Hai cliccato fuori dal div");
+    // }
+  };
+
+  const [showDialogSap, setShowDialogSap] = useState(false);
+  const handleShowDialogSap = () => {
+    setShowDialogSap(true);
+  }
+
+  const handleHideDialogSap = () => {
+    setShowDialogSap(false);
+  }
+
+  const [showDialogMaterial, setShowDialogMaterial] = useState(false);
+  const handleShowDialogMaterial = () => {
+    setShowDialogMaterial(true);
+  }
+
+  const handleHideDialogMaterial = () => {
+    setShowDialogMaterial(false);
+  }
+
 
 
   return (
@@ -800,25 +837,89 @@ function App() {
         <h1>Alert in Stile Sap </h1>
         <div style={{display:'flex', gap:"1.5rem"}}>
           
-        <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowAlertSap} >
-          Mostra Alert
-        </p>
-        {
-          showAlertSap && (
-          <Alert
-            variant="default"
-            theme='sap'
-            header={<h2>Header dell'Alert</h2>}
-            body={<div>Questo è un messaggio di alert</div>}
-            footer={
-              < Button label="Chiudi" theme="sap" onClick={handleHideAlertSap}></Button>
-            }
-          />
-        )}
-
+          <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowAlertSap} >
+            Mostra Alert
+          </p>
+          {
+            showAlertSap && (
+            <Alert
+              variant="default"
+              theme='sap'
+              header={<h2>Header dell'Alert</h2>}
+              body={<div>Questo è un messaggio di alert</div>}
+              showAlert={showAlertSap}
+              onClose={handleHideAlertSap}
+            />
+          )}
+        </div>
+        <br/>
+        <hr/>
+        <h1>Alert in Stile Material </h1>
+        <div style={{display:'flex', gap:"1.5rem"}}>
+          
+          <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowAlertMaterial} >
+            Mostra Alert
+          </p>
+          {
+            <Alert
+              variant="default"
+              theme='material'
+              header={<h2>Header dell'Alert</h2>}
+              body={<div>Questo è un messaggio di alert</div>}
+              labelBtnConfirm='Conferma'
+              labelBtnCancel='Chiudi'
+              showAlert={showAlertMaterial}
+              onClose={handleAlertClose}
+            />
+          }
+        </div>
+        <br/>
+        <hr/>
+        <h1>Dialog in Stile SAP </h1>
+        <div style={{display:'flex', gap:"1.5rem"}}>
+          
+          <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowDialogSap} >
+            Mostra Dialog
+          </p>
+          {showDialogSap && (
+            <Dialog variant="default" theme="sap" onClose={handleHideDialogSap}>
+              <YuildHeader>
+                <h2>Titolo del dialog</h2>
+              </YuildHeader>
+              <YuildBody>
+                <p>Questo è il contenuto del dialog.</p>
+              </YuildBody>
+              <YuildFooter> 
+                <Button label="Accetta"></Button>
+                < Button variant='tertiary' label="Rifiuta"></Button>
+              </YuildFooter>
+            </Dialog>
+          )}
+        </div>
+        <br/>
+        <hr/>
+        <h1>Dialog in Stile Material </h1>
+        <div style={{display:'flex', gap:"1.5rem"}}>
+          
+          <p style={{ cursor: 'pointer', color: 'blue' }} onClick={handleShowDialogMaterial}>
+            Mostra Dialog
+          </p>
+          {showDialogMaterial && (
+            <Dialog variant="default" theme="material" onClose={handleHideDialogMaterial}>
+              <YuildHeader>
+                <h2>Titolo del dialog</h2>
+              </YuildHeader>
+              <YuildBody>
+                <p>Questo è il contenuto del dialog.</p>
+              </YuildBody>
+              <YuildFooter> 
+                <Button label="Accetta" theme="material"></Button>
+                < Button variant='tertiary' theme="material" label="Rifiuta"></Button>
+              </YuildFooter>
+            </Dialog>
+          )}
+        </div>
        
-      </div>
-        
     </div>
       
 
