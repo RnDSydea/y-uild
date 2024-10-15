@@ -38,6 +38,7 @@ const Table = ({ theme = 'sap', columns, data }) => {
 
   return (
     <div className={tableContainerClass}>
+      
       <table className={tableClass}>
         <thead className={headerClass}>
           <tr>
