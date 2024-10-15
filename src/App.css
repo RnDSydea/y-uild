@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.main-container-drag-and-drop{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  background-color: aqua;
+}
+
+.components-container{
+  padding: 1rem 2rem;
+  width: 30%;
+  background-color: #e5e5e5;
+  border-right: 1px solid #a6a6a6;
+}

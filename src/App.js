@@ -11,8 +11,17 @@ import YuildHeader from './components/input/yUildHeader/yUildHeader';
 import YuildBody from './components/input/yUildBody/yUildBody';
 import YuildFooter from './components/input/yUildFooter/yUildFooter';
 import Alert from './components/input/alert/alert';
+import Table from './components/input/table/table';
 import './App.css'
 import Dialog from './components/input/dialog/dialog';
+import Drawer from './components/input/drawer/drawer';
+import Home from './assets/house-solid.svg'
+import User from './assets/user-solid.svg'
+import Comment from './assets/comment-solid.svg'
+import Info from './assets/circle-info-solid.svg'
+import Gear from './assets/gear-solid.svg'
+import Logout from './assets/right-from-bracket-solid.svg'
+
 
 function App() {
   // Inizializza lo stato come un oggetto con una chiave per ogni input/textarea
@@ -138,6 +147,29 @@ function App() {
     setShowDialogMaterial(false);
   }
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const columns = [
+    { header: 'ID', accessor: 'id' },
+    { header: 'Name', accessor: 'name' },
+    { header: 'Age', accessor: 'age' },
+    { header: 'Country', accessor: 'country' },
+  ];
+  
+  const data = [
+    { id: 1, name: 'Alice', age: 28, country: 'USA' },
+    { id: 2, name: 'Bob', age: 34, country: 'UK' },
+    { id: 3, name: 'Charlie', age: 25, country: 'Canada' },
+    { id: 4, name: 'David', age: 30, country: 'Australia' },
+  ];
 
 
   return (
@@ -919,7 +951,128 @@ function App() {
             </Dialog>
           )}
         </div>
-       
+        <br/>
+        <hr/>
+        <h1>Drawer in Stile Sap</h1>
+        <Button label="Apri Drawer" onClick={openDrawer} theme="sap"/>
+
+      <Drawer theme="sap" isOpen={isDrawerOpen} onClose={closeDrawer} closeBtn={false} >
+        <ul className='list-item'>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='sap-drawerIcon' src={Home} alt='Home icon'/>
+              </span>
+              <span className="title">Home</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='sap-drawerIcon' src={User} alt='User icon'/>
+              </span>
+              <span className="title">Profile</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='sap-drawerIcon' src={Comment} alt='Message icon'/>
+              </span>
+              <span className="title">Message</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='sap-drawerIcon' src={Info} alt='Home icon'/>
+              </span>
+              <span className="title">Help</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='sap-drawerIcon' src={Gear} alt='Settings icon'/>
+              </span>
+              <span className="title">Setting</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='sap-drawerIcon' src={Logout} alt='LogOut icon'/>
+              </span>
+              <span className="title">Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </Drawer>
+      <br/>
+        <hr/>
+        <h1>Drawer in Stile Material UI</h1>
+        <Button label="Apri Drawer" onClick={openDrawer} theme="material"/>
+
+      <Drawer theme="material" isOpen={isDrawerOpen} onClose={closeDrawer} closeBtn={true}>
+        <ul className='list-item'>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='material-drawerIcon' src={Home} alt='Home icon'/>
+              </span>
+              <span className="title">Home</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='material-drawerIcon' src={User} alt='User icon'/>
+              </span>
+              <span className="title">Profile</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='material-drawerIcon' src={Comment} alt='Message icon'/>
+              </span>
+              <span className="title">Message</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='material-drawerIcon' src={Info} alt='Home icon'/>
+              </span>
+              <span className="title">Help</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='material-drawerIcon' src={Gear} alt='Settings icon'/>
+              </span>
+              <span className="title">Setting</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span className="icon">
+                <img className='material-drawerIcon' src={Logout} alt='LogOut icon'/>
+              </span>
+              <span className="title">Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </Drawer>
+      <br/>
+      <hr/>
+      <h1>Tabella in Stile SAP</h1>
+      <Table theme="sap" columns={columns} data={data} />
+      <br/>
+      <hr/>
+      <h1>Tabella in Stile Material UI</h1>
+      <Table theme="material" columns={columns} data={data} />
     </div>
       
 
