@@ -1,0 +1,65 @@
+{
+    "components": [
+      {
+        "nome": "Alert",
+        "lunghezza": 3,
+        "altezza": 1
+      },
+      {
+        "nome": "Button",
+        "lunghezza": 2,
+        "altezza": 1
+      },
+      {
+        "nome": "Card",
+        "lunghezza": 3,
+        "altezza": 3
+      },
+      {
+        "nome": "Checkbox",
+        "lunghezza": 1,
+        "altezza": 1
+      },
+      {
+        "nome": "Dialog",
+        "lunghezza": 4,
+        "altezza": 3
+      },
+      {
+        "nome": "Drawer",
+        "lunghezza": 4,
+        "altezza": 10
+      },
+      {
+        "nome": "Input",
+        "lunghezza": 2,
+        "altezza": 1
+      },
+      {
+        "nome": "Radio",
+        "lunghezza": 1,
+        "altezza": 1
+      },
+      {
+        "nome": "Select",
+        "lunghezza": 2,
+        "altezza": 1
+      },
+      {
+        "nome": "Table",
+        "lunghezza": 12,
+        "altezza": 10
+      },
+      {
+        "nome": "Text Area",
+        "lunghezza": 3,
+        "altezza": 1
+      },
+      {
+        "nome": "Toast",
+        "lunghezza": 3,
+        "altezza": 1
+      }
+    ]
+  }
+  
