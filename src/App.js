@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from './components/input/button/button';
 import Input from './components/input/input/input';
 import TextArea from './components/input/textArea/textArea';
@@ -179,7 +179,22 @@ function App() {
   );
   const [highlightsCell, setHighlightsCell] = useState([]);
   const [draggedComponent, setDraggedComponent] = useState(null);
+  const [grid, setGrid] = useState([]);
 
+  const initGrid = () =>{
+    const totalCells = numColumns * numRows;
+    const newGrid = Array.from({length: totalCells}).map((_,index)=> ({
+        id:index+1,
+        lunghezza:1,
+        componente: null
+    }));
+    setGrid(newGrid);
+  }
+
+  useEffect(()=>{
+    initGrid();
+  }, [numColumns, numRows]
+)
   const clickCell = (index) => {
     console.log(index + 1);
   };
@@ -235,6 +250,12 @@ function App() {
     return cells;
   };
 
+  const buttonComponent = {
+    nome: 'Button',
+    lunghezza: 2, 
+    altezza: 1,
+    render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />
+  };
 
   return (
     // <div style={{ padding: '20px' }}>
@@ -1140,7 +1161,14 @@ function App() {
     // </div>
     <div className='main-container'>
       <div className='components-container'>
-        <h1 className='title'>Componenti</h1>
+        <h3 className='title'>Componenti</h3>
+          <div
+          className="tile"
+          draggable
+          onDragStart={() => handleDragStart(buttonComponent)}
+        >
+          <p>{buttonComponent.nome}</p>
+        </div>
         {ComponentsData.components.map((component, index) => (
           <div
             key={index}
@@ -1154,22 +1182,26 @@ function App() {
       </div>
 
       <div className="drag-and-drop-container">
-        <div className='drag-and-drop-zone'>
-          {Array.from({ length: numColumns * numRows }).map((_, index) => (
-            <div
-              className={`grid-cell ${highlightsCell.includes(index) ? 'highlight' : ''}`}
-              key={index}
-              id={index + 1}
-              onDragOver={(e) => { e.preventDefault(); handleDragOver(index); }}
-              onDragLeave={handleDragLeave}
-              onDrop={() => handleDrop(index)}
-            >
-              {
-                // Mostra l'ID del componente al posto del nome
-                gridComponent[index] ? gridComponent[index].id : index + 1
-              }
-            </div>
-          ))}
+        <div className='btn-download-container'>
+          <Button label="Scarica il codice"/>  
+        </div>
+        <div className='yuild-container'>
+          <div className='yuild-row'>
+            {grid.map((cell) => (
+              <div
+                className={`grid-cell ${highlightsCell.includes(cell.index - 1) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
+                key={cell.index - 1}
+                id={cell.index}
+                onDragOver={(e) => { e.preventDefault(); handleDragOver(cell.index - 1); }}
+                onDragLeave={handleDragLeave}
+                onDrop={() => handleDrop(cell.index - 1)}
+              >
+                {
+                  cell.componente ? cell.componente.id : cell.id
+                }
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
