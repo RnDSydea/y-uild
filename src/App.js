@@ -210,53 +210,44 @@ function App() {
   };
 
   const handleDrop = (index) => { //Funzione per gestire il rilascio di un componente sulla griglia, gestisce il posizionamento del componente trascinato quando viene rilasciato in una determinata cella.
-  if (draggedComponent) {
-    const newGridData = [...grid]; //è una copia della griglia corrente.
+    if (!draggedComponent) {
+      return;
+    }
+
+    const newGrid = [...grid];
     const { lunghezza, altezza, id } = draggedComponent; 
-    const cellHighlightBorder = calculateCellsToFill(index, lunghezza, altezza); //calcola le celle che il componente occuperà.
+    
+    const cellsToFill = calculateCellsToFill(index, lunghezza, altezza);
+    if (cellsToFill.length > 0) {
+      newGrid[cellsToFill[0]] = { 
+        id: `${draggedComponent.nome}-${getFormattedTimestamp()}`,   
+        lunghezza: lunghezza,
+        componente: { ...draggedComponent } 
+      };
 
-    const startIndex = cellHighlightBorder[0]; //aggiorna la cella iniziale con la lunghezza e assegna il componente.
-      if(cellHighlightBorder.length > 0 ){
-          newGridData[cellHighlightBorder[0]] = {
-          id:handleDragStart(),
-          lunghezza: lunghezza,
-          componente: { ...draggedComponent, id },
+      for (let i = 1; i < cellsToFill.length; i++) {
+        newGrid[cellsToFill[i]] = {
+          id: i+1,
+          lunghezza: 1, 
+          componente: null
         };
-      
-
-        for (var k=0; k< cellHighlightBorder.length; k++){
-            newGridData[cellHighlightBorder[k]] = {
-              id: k+1,
-              lunghezza: 1,
-              componente: null,
-            };
-        }
       }
+    }
 
-    const uniqueCellIndexis = [...new Set(cellHighlightBorder)];
-    uniqueCellIndexis.forEach((cellIndex) => {
-      if(cellIndex+lunghezza < newGridData.length){
-        newGridData[cellIndex+lunghezza] = {
-          ...newGridData[cellIndex+lunghezza],
+    const uniqueCellIndices = [...new Set(cellsToFill)];
+    uniqueCellIndices.forEach((cellIndex) => {
+      if (cellIndex + lunghezza < newGrid.length) {
+        newGrid[cellIndex + lunghezza] = {
+          ...newGrid[cellIndex + lunghezza],
           lunghezza: 1,
           componente: null,
         };
       }
     });
 
-    // cellHighlightBorder.slice(1).forEach((cellIndex) => { //imposta tutte le celle successive come componente: null per garantire che siano visivamente vuote.
-    //   if (cellIndex < newGridData.length) {
-    //     newGridData[cellIndex] = {
-    //       ...newGridData[cellIndex],
-    //       componente: null, 
-    //     };
-    //   }
-    // });
-
-    setGrid(newGridData);
+    setGrid(newGrid);
     setDraggedComponent(null); //ripristina stato di draggedComponent
     setHighlightsCell([]);
-  }
 };
 
 
