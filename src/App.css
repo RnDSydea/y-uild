@@ -38,6 +38,7 @@
 .drag-and-drop-container{
   width: 80%;
   background-color: rgb(255, 255, 255);
+  padding: 0rem 1.5rem;
 }
 
 /* .drag-and-drop-zone {
@@ -56,11 +57,11 @@
 .grid-cell {
   background-color: #ffffff;
   border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
   aspect-ratio: 1/1;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 7rem;
 }
 
 .grid-cell:hover{
@@ -68,7 +69,7 @@
 }
 
 .grid-cell.highlight{
-  border: 2px dashed red;
+  /* border: 1px dashed red; */
   background-color: #a6a6a6;
 }
 
