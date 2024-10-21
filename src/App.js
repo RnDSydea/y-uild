@@ -209,46 +209,55 @@ function App() {
     setDraggedComponent({ ...component, id: uniqueId }); //aggiorna lo stato con il componente trascinato, associando l'ID univoco.
   };
 
-  const handleDrop = (index) => { //Funzione per gestire il rilascio di un componente sulla griglia, gestisce il posizionamento del componente trascinato quando viene rilasciato in una determinata cella.
-    if (!draggedComponent) {
-      return;
-    }
+  const handleDrop = (index) => {
+  if (!draggedComponent) {
+    return;
+  }
 
-    const newGrid = [...grid];
-    const { lunghezza, altezza, id } = draggedComponent; 
-    
-    const cellsToFill = calculateCellsToFill(index, lunghezza, altezza);
-    if (cellsToFill.length > 0) {
-      newGrid[cellsToFill[0]] = { 
-        id: `${draggedComponent.nome}-${getFormattedTimestamp()}`,   
-        lunghezza: lunghezza,
-        componente: { ...draggedComponent } 
-      };
+  const newGrid = [...grid];
+  const { lunghezza: newLunghezza, altezza: newAltezza } = draggedComponent;
 
-      for (let i = 1; i < cellsToFill.length; i++) {
-        newGrid[cellsToFill[i]] = {
-          id: i+1,
-          lunghezza: 1, 
-          componente: null
-        };
-      }
-    }
+  const previousComponent = newGrid[index].componente;
+  const previousLunghezza = previousComponent ? previousComponent.lunghezza : 0;
 
-    const uniqueCellIndices = [...new Set(cellsToFill)];
-    uniqueCellIndices.forEach((cellIndex) => {
-      if (cellIndex + lunghezza < newGrid.length) {
-        newGrid[cellIndex + lunghezza] = {
-          ...newGrid[cellIndex + lunghezza],
+  const cellsToFill = calculateCellsToFill(index, newLunghezza, newAltezza);
+
+  if (previousLunghezza > newLunghezza) {
+    const cellsToClear = calculateCellsToFill(index, previousLunghezza, newAltezza).slice(newLunghezza);
+    cellsToClear.forEach((cellIndex) => {
+      if (cellIndex < newGrid.length) {
+        newGrid[cellIndex] = {
+          id: cellIndex + 1, 
           lunghezza: 1,
           componente: null,
         };
       }
     });
+  }
 
+  // Aggiorna le celle con il nuovo componente
+  if (cellsToFill.length > 0) {
+    newGrid[cellsToFill[0]] = {
+      id: `${draggedComponent.nome}-${getFormattedTimestamp()}`,
+      lunghezza: newLunghezza,
+      componente: { ...draggedComponent },
+    };
+  
+      for (let i = 1; i < cellsToFill.length; i++) {
+        // newGrid[cellsToFill[i]] = {
+        //   ...newGrid[cellsToFill[i]],
+        //   componente: null, 
+        //   lunghezza: 0, 
+        // };
+        newGrid.splice(cellsToFill[i],1);
+      }
+    }
+  
     setGrid(newGrid);
-    setDraggedComponent(null); //ripristina stato di draggedComponent
+    setDraggedComponent(null);
     setHighlightsCell([]);
-};
+  };
+  
 
 
   const handleDragOver = (index) => {
@@ -286,9 +295,9 @@ function App() {
     altezza: 1,
     render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
   };
-
   return (
-    <div className='main-container'>
+  
+  <div className='main-container'>
       <div className='components-container'>
         <h3 className='title'>Componenti</h3>
         <div
@@ -298,6 +307,7 @@ function App() {
         >
           <p>{buttonComponent.nome}</p>
         </div>
+      
         {ComponentsData.components.map((component, index) => (
           <div
             key={index}
@@ -316,26 +326,30 @@ function App() {
         </div>
         <div className='yuild-container'>
           <div className='yuild-row'>
-            {grid.map((cell, index) => (
-              <div
-                className={`grid-cell ${highlightsCell.includes(index) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
-                key={index}
-                id={cell.id}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  handleDragOver(index);
-                }}
-                onDragLeave={handleDragLeave}
-                onDrop={() => handleDrop(index)}
-              >
-                {
-                  cell.componente && typeof cell.componente.render === 'function'
-                    ? cell.componente.render()
-                    : cell.componente
-                    ? cell.componente.id 
-                    : cell.id
-                }
-              </div>
+          {grid.map((cell, index) => (
+            <div
+              className={`grid-cell ${highlightsCell.includes(index) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
+              key={index}
+              id={cell.id}
+              onDragOver={(e) => {
+                e.preventDefault();
+                handleDragOver(index);
+              }}
+              onDragLeave={handleDragLeave}
+              onDrop={() => handleDrop(index)}
+             
+            >
+              {
+                cell.lunghezza > 0 && cell.componente && typeof cell.componente.render === 'function'
+                  ? cell.componente.render()
+                  : cell.componente && cell.lunghezza > 0
+                  ? cell.componente.id 
+                  : !cell.componente && cell.lunghezza > 0
+                  ? cell.id 
+                  : null
+              }
+              
+            </div>
             ))}
           </div>
         </div>
