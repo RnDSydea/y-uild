@@ -180,11 +180,25 @@ function App() {
 
   const initGrid = () => { //funzione per inizializzare la griglia
     const totalCells = numColumns * numRows; //calcola il numero totale di celle nella griglia
-    const newGrid = Array.from({ length: totalCells }).map((_, index) => ({ //crea un array della lunghezza di totalCells e per ogni cella genera un oggetto con un id univoco, lunghezza impostata a 1 e componente impostato a null.
-      id: index + 1,
-      lunghezza: 1,
-      componente: null,
-    }));
+    const newGrid = [];
+    var index = 0;
+    for (var i=0; i<numRows;i++){
+      newGrid.push([]);
+      for(var j=0; j<numColumns; j++){
+        index++;
+        newGrid[i].push({
+            id: index,
+            lunghezza: 1,
+            componente: null,
+        })
+      }
+    }
+    // const newGrid = Array.from({ length: totalCells }).map((_, index) => ({ //crea un array della lunghezza di totalCells e per ogni cella genera un oggetto con un id univoco, lunghezza impostata a 1 e componente impostato a null.
+    //   id: index + 1,
+    //   lunghezza: 1,
+    //   componente: null,
+    // }));
+
     setGrid(newGrid); //aggiorna lo stato grid con la nuova griglia inizializzata
   };
 
@@ -209,7 +223,7 @@ function App() {
     setDraggedComponent({ ...component, id: uniqueId }); //aggiorna lo stato con il componente trascinato, associando l'ID univoco.
   };
 
-  const handleDrop = (index) => {
+  const handleDrop = (index_row, index_col ) => {
   if (!draggedComponent) {
     return;
   }
@@ -217,58 +231,54 @@ function App() {
   const newGrid = [...grid];
   const { lunghezza: newLunghezza, altezza: newAltezza } = draggedComponent;
 
-  const previousComponent = newGrid[index].componente;
-  const previousLunghezza = previousComponent ? previousComponent.lunghezza : 0;
+  const cellsToFill = calculateCellsToFill(index_row, index_col, newLunghezza, newAltezza);
 
-  const cellsToFill = calculateCellsToFill(index, newLunghezza, newAltezza);
-
-  if (previousLunghezza > newLunghezza) {
-    const cellsToClear = calculateCellsToFill(index, previousLunghezza, newAltezza).slice(newLunghezza);
-    cellsToClear.forEach((cellIndex) => {
-      if (cellIndex < newGrid.length) {
-        newGrid[cellIndex] = {
-          id: cellIndex + 1, 
-          lunghezza: 1,
-          componente: null,
-        };
-      }
-    });
-  }
-
-  // Aggiorna le celle con il nuovo componente
   if (cellsToFill.length > 0) {
-    newGrid[cellsToFill[0]] = {
-      id: `${draggedComponent.nome}-${getFormattedTimestamp()}`,
-      lunghezza: newLunghezza,
-      componente: { ...draggedComponent },
-    };
-  
-      for (let i = 1; i < cellsToFill.length; i++) {
-        // newGrid[cellsToFill[i]] = {
-        //   ...newGrid[cellsToFill[i]],
-        //   componente: null, 
-        //   lunghezza: 0, 
-        // };
-        newGrid.splice(cellsToFill[i],1);
+    // Assegna il componente alla prima cella di ogni riga
+    for (let i = 0; i < newAltezza; i++) {
+      const rowStartIndex = index_row + i;
+      const colStartIndex = index_col;
+      const cellId = `${draggedComponent.nome}-${getFormattedTimestamp()}`;
+
+      if (rowStartIndex < newGrid.length) {
+        // Imposta il componente solo sulla cella iniziale della riga
+        newGrid[rowStartIndex][colStartIndex] = {
+          id: cellId,
+          lunghezza: newLunghezza,
+          componente: { ...draggedComponent, id: cellId },
+        };
+
+        // Aggiorna le altre celle nella stessa riga per mantenere la larghezza
+        for (let j = 1; j < newLunghezza; j++) {
+          const rowStartIndex = index_row + i;
+          const colStartIndex = index_col;
+          
+            newGrid[rowStartIndex][colStartIndex] = {
+              id: cellId + 1,
+              lunghezza: 1,
+              componente: null,
+            };
+        }
+        
       }
     }
-  
-    setGrid(newGrid);
-    setDraggedComponent(null);
-    setHighlightsCell([]);
-  };
-  
+  }
+
+  setGrid(newGrid);
+  setDraggedComponent(null);
+  setHighlightsCell([]);
+};
 
 
-  const handleDragOver = (index) => {
+  const handleDragOver = (index_row, index_col) => {
     if (draggedComponent) {
       const { lunghezza, altezza } = draggedComponent;
-      const cellHighlightBorder = calculateCellsToFill(index, lunghezza, altezza);
+      const cellHighlightBorder = calculateCellsToFill(index_row, index_col, lunghezza, altezza);
 
-      const validHighlights = cellHighlightBorder.filter(
-        (cellIndex) => cellIndex < numColumns * numRows
-      );
-      setHighlightsCell(validHighlights);
+      // const validHighlights = cellHighlightBorder.filter(
+      //   (cellIndex) => cellIndex < numColumns * numRows
+      // );
+      setHighlightsCell(cellHighlightBorder);
     } else {
       setHighlightsCell([]);
     }
@@ -278,13 +288,17 @@ function App() {
     setHighlightsCell([]);
   };
 
-  const calculateCellsToFill = (startIndex, lunghezza, altezza) => {
+  const calculateCellsToFill = (index_row, index_col, lunghezza, altezza) => {
     const cells = [];
+
     for (let i = 0; i < altezza; i++) {
       for (let j = 0; j < lunghezza; j++) {
-        const cellIndex = startIndex + i * numColumns + j;
-        cells.push(cellIndex);
+        const cellIndex_row = index_row + i ;
+        const cellIndex_col = index_col +j;
+        cells.push({row:cellIndex_row, columns: cellIndex_col});
+        
       }
+      
     }
     return cells;
   };
@@ -295,9 +309,9 @@ function App() {
     altezza: 1,
     render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
   };
+
   return (
-  
-  <div className='main-container'>
+    <div className='main-container'>
       <div className='components-container'>
         <h3 className='title'>Componenti</h3>
         <div
@@ -307,7 +321,6 @@ function App() {
         >
           <p>{buttonComponent.nome}</p>
         </div>
-      
         {ComponentsData.components.map((component, index) => (
           <div
             key={index}
@@ -325,36 +338,40 @@ function App() {
           <Button label="Scarica il codice" />
         </div>
         <div className='yuild-container'>
+          {grid.map((row, index_row) => (
           <div className='yuild-row'>
-          {grid.map((cell, index) => (
-            <div
-              className={`grid-cell ${highlightsCell.includes(index) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
-              key={index}
-              id={cell.id}
-              onDragOver={(e) => {
-                e.preventDefault();
-                handleDragOver(index);
-              }}
-              onDragLeave={handleDragLeave}
-              onDrop={() => handleDrop(index)}
-             
-            >
-              {
-                cell.lunghezza > 0 && cell.componente && typeof cell.componente.render === 'function'
-                  ? cell.componente.render()
-                  : cell.componente && cell.lunghezza > 0
-                  ? cell.componente.id 
-                  : !cell.componente && cell.lunghezza > 0
-                  ? cell.id 
-                  : null
-              }
+            {row.map((cell, index_cell) => (
+              <div
+                className={`grid-cell ${highlightsCell.find((e)=>e.row === index_row && e.columns===index_cell) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
+                key={index_cell}
+                id={cell.id}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  handleDragOver(index_row, index_cell);
+                }}
+                onDragLeave={handleDragLeave}
+                onDrop={() => handleDrop(index_row, index_cell)}
               
-            </div>
-            ))}
+              >
+                {
+                  cell.lunghezza > 0 && cell.componente && typeof cell.componente.render === 'function'
+                    ? cell.componente.render()
+                    : cell.componente && cell.lunghezza > 0
+                    ? cell.componente.id 
+                    : !cell.componente && cell.lunghezza > 0
+                    ? cell.id 
+                    : null
+                }
+                
+              </div>
+              ))}
           </div>
+          ))}
         </div>
       </div>
     </div>
+    );
+  }
 
 
       // <div style={{ padding: '20px' }}>
@@ -1258,7 +1275,6 @@ function App() {
       //   <h1>Tabella in Stile Material UI</h1>
       //   <Table theme="material" columns={columns} data={data} />
       // </div>
-    );
-  }
+
 
 export default App;
