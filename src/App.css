@@ -70,7 +70,11 @@
 
 .grid-cell.highlight{
   /* border: 1px dashed red; */
-  background-color: #a6a6a6;
+  background-color: #008e3b8b;
+}
+
+.grid-cell.occupied{
+  background-color: #ae00008c;
 }
 
 .yuild-row{
@@ -79,6 +83,7 @@
 }
 
 .yuild-container{
+  position: relative;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
@@ -124,12 +129,18 @@
 .yuild-col-11 { flex: 0 0 91.66%; max-width: 91.66%; }
 .yuild-col-12 { flex: 0 0 100%; max-width: 100%; }
 
-
-
-
-
-
-
 .title{
  float: left;
+}
+
+.component-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: orange; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

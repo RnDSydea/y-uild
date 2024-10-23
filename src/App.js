@@ -172,41 +172,37 @@ function App() {
     { id: 4, name: 'David', age: 30, country: 'Australia' },
   ];
 
-  const [numColumns, setNumColumns] = useState(12);  //numero colonne
-  const [numRows, setNumRows] = useState(36); //numero righe
-  const [grid, setGrid] = useState([]); //griglia -> ogni cella è un oggetto con id, lunghezza, componente
-  const [highlightsCell, setHighlightsCell] = useState([]); // tiene traccia delle celle evidenziate quando si trascina un componente sulla griglia, mostrando dove si posizionerebbe.
-  const [draggedComponent, setDraggedComponent] = useState(null); //memorizza il componente che è attualmente in fase di trascinamento.
+  const [numColumns, setNumColumns] = useState(12);
+  const [numRows, setNumRows] = useState(36);
+  const [grid, setGrid] = useState([]);
+  const [highlightsCell, setHighlightsCell] = useState([]);
+  const [draggedComponent, setDraggedComponent] = useState(null);
+  const [patchObj, setPatchObj] = useState([]);
 
-  const initGrid = () => { //funzione per inizializzare la griglia
-    const totalCells = numColumns * numRows; //calcola il numero totale di celle nella griglia
+  const initGrid = () => {
+    const totalCells = numColumns * numRows;
     const newGrid = [];
-    var index = 0;
-    for (var i=0; i<numRows;i++){
+    let index = 0;
+    for (let i = 0; i < numRows; i++) {
       newGrid.push([]);
-      for(var j=0; j<numColumns; j++){
+      for (let j = 0; j < numColumns; j++) {
         index++;
         newGrid[i].push({
-            id: index,
-            lunghezza: 1,
-            componente: null,
-        })
+          id: 'yuild-'+index,  
+          lunghezza: 1,
+          componente: null,
+          componentId: null,  
+        });
       }
     }
-    // const newGrid = Array.from({ length: totalCells }).map((_, index) => ({ //crea un array della lunghezza di totalCells e per ogni cella genera un oggetto con un id univoco, lunghezza impostata a 1 e componente impostato a null.
-    //   id: index + 1,
-    //   lunghezza: 1,
-    //   componente: null,
-    // }));
-
-    setGrid(newGrid); //aggiorna lo stato grid con la nuova griglia inizializzata
+    setGrid(newGrid);
   };
 
-  useEffect(() => { //re-inizializzare la griglia ogni volta che cambiano numColumns o numRows.
+  useEffect(() => {
     initGrid();
   }, [numColumns, numRows]);
 
-  const getFormattedTimestamp = () => { //restituisce una stringa formattata con la data e l'ora corrente, utilizzata per creare un ID univoco per ogni componente trascinato.
+  const getFormattedTimestamp = () => {
     const date = new Date();
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -214,71 +210,100 @@ function App() {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
-
-    return `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+    return `${day}/${month}/${year}-${hours}:${minutes}:${seconds}`;
   };
 
-  const handleDragStart = (component) => { //funzione per iniziare il drag
-    const uniqueId = `comp-${getFormattedTimestamp()}`; //Genera un uniqueId per il componente trascinato usando il timestamp formattato.
-    setDraggedComponent({ ...component, id: uniqueId }); //aggiorna lo stato con il componente trascinato, associando l'ID univoco.
+  const handleDragStart = (component) => {
+    const uniqueId = `comp-${getFormattedTimestamp()}`;
+    setDraggedComponent({ ...component, componentId: uniqueId });  // Usa componentId
   };
 
-  const handleDrop = (index_row, index_col ) => {
-  if (!draggedComponent) {
-    return;
-  }
-
-  const newGrid = [...grid];
-  const { lunghezza: newLunghezza, altezza: newAltezza } = draggedComponent;
-
-  const cellsToFill = calculateCellsToFill(index_row, index_col, newLunghezza, newAltezza);
-
-  if (cellsToFill.length > 0) {
-    // Assegna il componente alla prima cella di ogni riga
-    for (let i = 0; i < newAltezza; i++) {
-      const rowStartIndex = index_row + i;
-      const colStartIndex = index_col;
-      const cellId = `${draggedComponent.nome}-${getFormattedTimestamp()}`;
-
-      if (rowStartIndex < newGrid.length) {
-        // Imposta il componente solo sulla cella iniziale della riga
-        newGrid[rowStartIndex][colStartIndex] = {
-          id: cellId,
-          lunghezza: newLunghezza,
-          componente: { ...draggedComponent, id: cellId },
-        };
-
-        // Aggiorna le altre celle nella stessa riga per mantenere la larghezza
-        for (let j = 1; j < newLunghezza; j++) {
-          const rowStartIndex = index_row + i;
-          const colStartIndex = index_col;
-          
-            newGrid[rowStartIndex][colStartIndex] = {
-              id: cellId + 1,
-              lunghezza: 1,
-              componente: null,
-            };
-        }
-        
-      }
+  const handleDrop = (index_row, index_col) => {
+    if (!draggedComponent) {
+      return;
     }
-  }
+  
+    const { lunghezza: newLunghezza, altezza: newAltezza } = draggedComponent;
+    const cellsToFill = calculateCellsToFill(index_row, index_col, newLunghezza, newAltezza);
+  
+    // Verifica se qualcuna delle celle è occupata
+    const isOccupied = cellsToFill.some(
+      (cell) => grid[cell.row] && grid[cell.row][cell.columns] && grid[cell.row][cell.columns].componente
+    );
+  
+    if (isOccupied) {
+      // Se è occupata, resetta evidenziazione e non rilasciare il componente
+      setHighlightsCell([]);
+      return;
+    }
+  
+    // Prosegui con il rilascio normale del componente
+    const newGrid = [...grid];
+    cellsToFill.forEach(({ row, columns }) => {
+      newGrid[row][columns] = {
+        ...newGrid[row][columns],
+        lunghezza: newLunghezza,
+        componente: draggedComponent.nome,
+        componentId: draggedComponent.componentId,
+      };
+    });
+
+     // Ottieni le coordinate della cella di partenza (angolo in alto a sinistra)
+  const firstCellId = newGrid[cellsToFill[0].row][cellsToFill[0].columns].id;
+  const lastCellId = newGrid[cellsToFill[cellsToFill.length - 1].row][cellsToFill[cellsToFill.length - 1].columns].id;
+
+  const topCell = document.getElementById(firstCellId);
+  const bottomCell = document.getElementById(lastCellId);
+
+  const top = topCell.offsetTop;  // Posizione dall'alto relativa al contenitore
+  const left = topCell.offsetLeft;  // Posizione da sinistra
+  const bottom = bottomCell.offsetTop + bottomCell.offsetHeight;  // Posizione del fondo
+  const right = bottomCell.offsetLeft + bottomCell.offsetWidth;  // Posizione del lato destro
+
+  const width = right - left;
+  const height = bottom - top;
+
+  const overlay_component = {
+    id: draggedComponent.componentId,
+    componentId: draggedComponent.componentId,
+    top,
+    left,
+    width,
+    height,
+  };
+
+  const newPatchObj = [...patchObj];
+  newPatchObj.push(overlay_component);
 
   setGrid(newGrid);
   setDraggedComponent(null);
   setHighlightsCell([]);
+  setPatchObj(newPatchObj);
 };
-
 
   const handleDragOver = (index_row, index_col) => {
     if (draggedComponent) {
       const { lunghezza, altezza } = draggedComponent;
       const cellHighlightBorder = calculateCellsToFill(index_row, index_col, lunghezza, altezza);
-
-      // const validHighlights = cellHighlightBorder.filter(
-      //   (cellIndex) => cellIndex < numColumns * numRows
-      // );
-      setHighlightsCell(cellHighlightBorder);
+      
+      const isOccupied = cellHighlightBorder.some(({ row, columns }) => {
+        return grid[row][columns].componente !== null;
+      });
+      
+      // Imposta la classe per evidenziare celle libere o occupate
+      if (isOccupied) {
+        setHighlightsCell(cellHighlightBorder.map(({ row, columns }) => ({
+          row,
+          columns,
+          occupied: true
+        })));
+      } else {
+        setHighlightsCell(cellHighlightBorder.map(({ row, columns }) => ({
+          row,
+          columns,
+          occupied: false
+        })));
+      }
     } else {
       setHighlightsCell([]);
     }
@@ -290,88 +315,100 @@ function App() {
 
   const calculateCellsToFill = (index_row, index_col, lunghezza, altezza) => {
     const cells = [];
-
     for (let i = 0; i < altezza; i++) {
       for (let j = 0; j < lunghezza; j++) {
-        const cellIndex_row = index_row + i ;
-        const cellIndex_col = index_col +j;
-        cells.push({row:cellIndex_row, columns: cellIndex_col});
-        
+        const cellIndex_row = index_row + i;
+        const cellIndex_col = index_col + j;
+        cells.push({ row: cellIndex_row, columns: cellIndex_col });
       }
-      
     }
     return cells;
   };
 
-  const buttonComponent = {
-    nome: 'Button',
-    lunghezza: 2,
-    altezza: 1,
-    render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
-  };
 
-  return (
-    <div className='main-container'>
-      <div className='components-container'>
-        <h3 className='title'>Componenti</h3>
-        <div
-          className="tile"
-          draggable
-          onDragStart={() => handleDragStart(buttonComponent)}
-        >
-          <p>{buttonComponent.nome}</p>
-        </div>
-        {ComponentsData.components.map((component, index) => (
+    const buttonComponent = {
+      nome: 'Button',
+      lunghezza: 2,
+      altezza: 1,
+      render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
+    };
+
+    return (
+      <div className='main-container'>
+        <div className='components-container'>
+          <h3 className='title'>Componenti</h3>
           <div
-            key={index}
             className="tile"
             draggable
-            onDragStart={() => handleDragStart(component)}
+            onDragStart={() => handleDragStart(buttonComponent)}
           >
-            <p>{component.nome}</p>
+            <p>{buttonComponent.nome}</p>
           </div>
-        ))}
-      </div>
-
-      <div className="drag-and-drop-container">
-        <div className='btn-download-container'>
-          <Button label="Scarica il codice" />
-        </div>
-        <div className='yuild-container'>
-          {grid.map((row, index_row) => (
-          <div className='yuild-row'>
-            {row.map((cell, index_cell) => (
-              <div
-                className={`grid-cell ${highlightsCell.find((e)=>e.row === index_row && e.columns===index_cell) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
-                key={index_cell}
-                id={cell.id}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  handleDragOver(index_row, index_cell);
-                }}
-                onDragLeave={handleDragLeave}
-                onDrop={() => handleDrop(index_row, index_cell)}
-              
-              >
-                {
-                  cell.lunghezza > 0 && cell.componente && typeof cell.componente.render === 'function'
-                    ? cell.componente.render()
-                    : cell.componente && cell.lunghezza > 0
-                    ? cell.componente.id 
-                    : !cell.componente && cell.lunghezza > 0
-                    ? cell.id 
-                    : null
-                }
-                
-              </div>
-              ))}
-          </div>
+          {ComponentsData.components.map((component, index) => (
+            <div
+              key={index}
+              className="tile"
+              draggable
+              onDragStart={() => handleDragStart(component)}
+            >
+              <p>{component.nome}</p>
+            </div>
           ))}
         </div>
+
+        <div className="drag-and-drop-container">
+          <div className='btn-download-container'>
+            <Button label="Scarica il codice" />
+          </div>
+          <div className='yuild-container'>
+            {grid.map((row, index_row) => (
+            <div className='yuild-row'>
+              {row.map((cell, index_cell) => (
+                <div
+                  // className={`grid-cell ${highlightsCell.find((e)=>e.row === index_row && e.columns===index_cell) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
+                  className={`grid-cell ${
+                    highlightsCell.find((e) => e.row === index_row && e.columns === index_cell) 
+                      ? highlightsCell.find((e) => e.row === index_row && e.columns === index_cell).occupied 
+                        ? 'occupied' 
+                        : 'highlight' 
+                      : ''
+                  } yuild-col-1`}
+                  key={index_cell}
+                  id={cell.id}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    handleDragOver(index_row, index_cell);
+                  }}
+                  onDragLeave={handleDragLeave}
+                  onDrop={() => handleDrop(index_row, index_cell)}
+                
+                >
+                   {cell.componente && cell.componentId ? `${cell.id} + ${cell.componentId}` : cell.id} 
+                </div>
+                ))}
+            </div>
+            ))}
+             {patchObj.map((overlay, index) => (
+              <div
+                key={index}
+                className="component-overlay"
+                style={{
+                  position: 'absolute',
+                  top: overlay.top ,
+                  left: overlay.left ,
+                  width: overlay.width ,
+                  height: overlay.height ,
+                }}
+              >
+              
+              </div>
+            ))}
+             
+          </div>
+        </div>
       </div>
-    </div>
-    );
-  }
+      );
+    }
 
 
       // <div style={{ padding: '20px' }}>
