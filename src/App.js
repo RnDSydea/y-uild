@@ -21,6 +21,7 @@ import Comment from './assets/comment-solid.svg'
 import Info from './assets/circle-info-solid.svg'
 import Gear from './assets/gear-solid.svg'
 import Logout from './assets/right-from-bracket-solid.svg'
+import Delete from './assets/trash-solid.svg'
 import ComponentsData from './assets/data/components.json'
 
 
@@ -178,6 +179,7 @@ function App() {
   const [highlightsCell, setHighlightsCell] = useState([]);
   const [draggedComponent, setDraggedComponent] = useState(null);
   const [patchObj, setPatchObj] = useState([]);
+  const [selectedPatch, setSelectedPatch] = useState(null); 
 
   const initGrid = () => {
     const totalCells = numColumns * numRows;
@@ -232,12 +234,11 @@ function App() {
     );
   
     if (isOccupied) {
-      // Se è occupata, resetta evidenziazione e non rilasciare il componente
       setHighlightsCell([]);
       return;
     }
   
-    // Prosegui con il rilascio normale del componente
+    // rilascio del componente
     const newGrid = [...grid];
     cellsToFill.forEach(({ row, columns }) => {
       newGrid[row][columns] = {
@@ -248,23 +249,23 @@ function App() {
       };
     });
 
-     // Ottieni le coordinate della cella di partenza (angolo in alto a sinistra)
   const firstCellId = newGrid[cellsToFill[0].row][cellsToFill[0].columns].id;
   const lastCellId = newGrid[cellsToFill[cellsToFill.length - 1].row][cellsToFill[cellsToFill.length - 1].columns].id;
 
   const topCell = document.getElementById(firstCellId);
   const bottomCell = document.getElementById(lastCellId);
 
-  const top = topCell.offsetTop;  // Posizione dall'alto relativa al contenitore
-  const left = topCell.offsetLeft;  // Posizione da sinistra
-  const bottom = bottomCell.offsetTop + bottomCell.offsetHeight;  // Posizione del fondo
-  const right = bottomCell.offsetLeft + bottomCell.offsetWidth;  // Posizione del lato destro
+  const top = topCell.offsetTop;  
+  const left = topCell.offsetLeft;
+  const bottom = bottomCell.offsetTop + bottomCell.offsetHeight;
+  const right = bottomCell.offsetLeft + bottomCell.offsetWidth; 
 
   const width = right - left;
   const height = bottom - top;
 
   const overlay_component = {
     id: draggedComponent.componentId,
+    component:draggedComponent.component,
     componentId: draggedComponent.componentId,
     top,
     left,
@@ -279,7 +280,7 @@ function App() {
   setDraggedComponent(null);
   setHighlightsCell([]);
   setPatchObj(newPatchObj);
-};
+  };
 
   const handleDragOver = (index_row, index_col) => {
     if (draggedComponent) {
@@ -325,43 +326,102 @@ function App() {
     return cells;
   };
 
-
-    const buttonComponent = {
-      nome: 'Button',
-      lunghezza: 2,
-      altezza: 1,
-      render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
+  const handlePatchClick = (index) => {
+    if (selectedPatch === index) {
+      setSelectedPatch(null);
+    } else {
+      setSelectedPatch(index);
+      document.addEventListener('click', handleOutsideClick);
+    }
+  };
+  
+  const handleOutsideClick = (event) => {
+    const overlayElement = document.querySelector('.component-overlay'); 
+    if (overlayElement && !overlayElement.contains(event.target)) {
+      setSelectedPatch(null); 
+      document.removeEventListener('click', handleOutsideClick); 
+    }
+  };
+  
+  useEffect(() => {
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
     };
+  }, []);
 
-    return (
-      <div className='main-container'>
-        <div className='components-container'>
-          <h3 className='title'>Componenti</h3>
+  const handleDeletePatch = (index) => {
+    const patchToDelete = patchObj[index];
+    const { top, left, width, height } = patchToDelete;
+    const cellsToFree = [];
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[row].length; col++) {
+        const cell = document.getElementById(grid[row][col].id);
+        if (
+          cell.offsetTop >= top &&
+          cell.offsetTop < top + height &&
+          cell.offsetLeft >= left &&
+          cell.offsetLeft < left + width
+        ) {
+          cellsToFree.push({ row, col });
+        }
+      }
+    }
+  
+    const updatedGrid = [...grid];
+    cellsToFree.forEach(({ row, col }) => {
+      updatedGrid[row][col] = {
+        ...updatedGrid[row][col],
+        lunghezza: 1,
+        componente: null,
+        componentId: null,
+      };
+    });
+  
+  
+    const updatedPatchObj = patchObj.filter((_, patchIndex) => patchIndex !== index);
+    setGrid(updatedGrid);
+    setPatchObj(updatedPatchObj);
+    setSelectedPatch(null);
+  };
+  
+
+
+  const buttonComponent = {
+    nome: 'Button',
+    lunghezza: 2,
+    altezza: 1,
+    render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
+  };
+
+  return (
+    <div className='main-container'>
+      <div className='components-container'>
+        <h3 className='title'>Componenti</h3>
+        <div
+          className="tile"
+          draggable
+          onDragStart={() => handleDragStart(buttonComponent)}
+        >
+          <p>{buttonComponent.nome}</p>
+        </div>
+        {ComponentsData.components.map((component, index) => (
           <div
+            key={index}
             className="tile"
             draggable
-            onDragStart={() => handleDragStart(buttonComponent)}
+            onDragStart={() => handleDragStart(component)}
           >
-            <p>{buttonComponent.nome}</p>
+            <p>{component.nome}</p>
           </div>
-          {ComponentsData.components.map((component, index) => (
-            <div
-              key={index}
-              className="tile"
-              draggable
-              onDragStart={() => handleDragStart(component)}
-            >
-              <p>{component.nome}</p>
-            </div>
-          ))}
-        </div>
+        ))}
+      </div>
 
-        <div className="drag-and-drop-container">
-          <div className='btn-download-container'>
+      <div className="drag-and-drop-container">
+        <div className='btn-download-container'>
             <Button label="Scarica il codice" />
-          </div>
-          <div className='yuild-container'>
-            {grid.map((row, index_row) => (
+        </div>
+        <div className='yuild-container'>
+          {grid.map((row, index_row) => (
             <div className='yuild-row'>
               {row.map((cell, index_cell) => (
                 <div
@@ -387,28 +447,46 @@ function App() {
                 </div>
                 ))}
             </div>
-            ))}
-             {patchObj.map((overlay, index) => (
+          ))}
+          {patchObj.map((overlay, index) => (
+            <div
+              key={index}
+              className="overlay-container"  
+              style={{
+                position:'absolute',
+                top: overlay.top,
+                left: overlay.left,
+              }}
+            >
               <div
-                key={index}
                 className="component-overlay"
                 style={{
                   position: 'absolute',
-                  top: overlay.top ,
-                  left: overlay.left ,
-                  width: overlay.width ,
-                  height: overlay.height ,
+                  right: overlay.right,
+                  bottom: overlay.bottom,
+                  width: overlay.width,
+                  height: overlay.height,
+                  boxShadow: selectedPatch === index ? 'inset 0 0 0 3px red' : '',
+                  transition: 'box-shadow 0.3s ease'
                 }}
+                onClick={() => handlePatchClick(index)}  
               >
-              
+                
               </div>
-            ))}
-             
-          </div>
+
+            
+              {selectedPatch === index && (
+                <div className="delete-icon-container" style={{ left: `calc(${overlay.width}px + 10px)`,}}>
+                  <img src={Delete} alt="Delete Icon"className="delete-icon" onClick={() => handleDeletePatch(index)}  />
+                </div>
+              )}
+            </div>
+          ))} 
         </div>
       </div>
-      );
-    }
+    </div>
+  );
+}
 
 
       // <div style={{ padding: '20px' }}>

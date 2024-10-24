@@ -133,6 +133,11 @@
  float: left;
 }
 
+.overlay-container {
+  position: 'absolute';
+  z-index: 10;
+}
+
 .component-overlay {
   position: absolute;
   width: 100%;
@@ -143,4 +148,33 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  
+}
+
+.component-overlay:hover{
+  box-shadow: inset 0 0 0 3px rgba(0, 0, 255, 1);
+}
+
+.delete-icon-container {
+  position: absolute;
+  right: 0;   
+  z-index: 20;
+  border: 1px solid rgb(185, 0, 0);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem;
+  background-color: red;
+  border-radius: 8px;
+}
+
+
+.delete-icon {
+  width: 16px;  
+  height: 16px;
+  cursor: pointer;
+  filter: invert(1);
 }
