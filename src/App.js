@@ -179,7 +179,6 @@ function App() {
   const [highlightsCell, setHighlightsCell] = useState([]);
   const [draggedComponent, setDraggedComponent] = useState(null);
   const [patchObj, setPatchObj] = useState([]);
-  const [selectedPatch, setSelectedPatch] = useState(null); 
 
   const initGrid = () => {
     const totalCells = numColumns * numRows;
@@ -217,7 +216,7 @@ function App() {
 
   const handleDragStart = (component) => {
     const uniqueId = `comp-${getFormattedTimestamp()}`;
-    setDraggedComponent({ ...component, componentId: uniqueId });  // Usa componentId
+    setDraggedComponent({ ...component, componentId: uniqueId });  
   };
 
   const handleDrop = (index_row, index_col) => {
@@ -327,18 +326,21 @@ function App() {
   };
 
   const handlePatchClick = (index) => {
-    if (selectedPatch === index) {
-      setSelectedPatch(null);
-    } else {
-      setSelectedPatch(index);
-      document.addEventListener('click', handleOutsideClick);
-    }
+    const newPatchObj = patchObj.map((patch, i) => ({
+      ...patch,
+      selected: i === index ? !patch.selected : false 
+    }));
+    setPatchObj(newPatchObj);
+    document.addEventListener('click', handleOutsideClick); 
   };
   
   const handleOutsideClick = (event) => {
-    const overlayElement = document.querySelector('.component-overlay'); 
-    if (overlayElement && !overlayElement.contains(event.target)) {
-      setSelectedPatch(null); 
+    if (!event.target.closest('.component-overlay')) {
+      const newPatchObj = patchObj.map((patch) => ({
+        ...patch,
+        selected: false
+      }));
+      setPatchObj(newPatchObj);
       document.removeEventListener('click', handleOutsideClick); 
     }
   };
@@ -353,6 +355,7 @@ function App() {
     const patchToDelete = patchObj[index];
     const { top, left, width, height } = patchToDelete;
     const cellsToFree = [];
+  
     for (let row = 0; row < grid.length; row++) {
       for (let col = 0; col < grid[row].length; col++) {
         const cell = document.getElementById(grid[row][col].id);
@@ -377,11 +380,14 @@ function App() {
       };
     });
   
-  
     const updatedPatchObj = patchObj.filter((_, patchIndex) => patchIndex !== index);
     setGrid(updatedGrid);
     setPatchObj(updatedPatchObj);
-    setSelectedPatch(null);
+  };
+
+  const handleDeletePatchClick = (event, index) => {
+    event.stopPropagation();
+    handleDeletePatch(index);
   };
   
 
@@ -451,9 +457,8 @@ function App() {
           {patchObj.map((overlay, index) => (
             <div
               key={index}
-              className="overlay-container"  
+              className="overlay-container"
               style={{
-                position:'absolute',
                 top: overlay.top,
                 left: overlay.left,
               }}
@@ -461,23 +466,16 @@ function App() {
               <div
                 className="component-overlay"
                 style={{
-                  position: 'absolute',
-                  right: overlay.right,
-                  bottom: overlay.bottom,
                   width: overlay.width,
                   height: overlay.height,
-                  boxShadow: selectedPatch === index ? 'inset 0 0 0 3px red' : '',
-                  transition: 'box-shadow 0.3s ease'
+                  boxShadow: overlay.selected ? 'inset 0 0 0 3px red' : ''
                 }}
                 onClick={() => handlePatchClick(index)}  
-              >
-                
-              </div>
-
-            
-              {selectedPatch === index && (
-                <div className="delete-icon-container" style={{ left: `calc(${overlay.width}px + 10px)`,}}>
-                  <img src={Delete} alt="Delete Icon"className="delete-icon" onClick={() => handleDeletePatch(index)}  />
+              />
+              
+              {overlay.selected && (
+                <div className="delete-icon-container" style={{ left: `calc(${overlay.width}px + 10px)`}} onClick={(e) => handleDeletePatchClick(e, index)}>
+                  <img src={Delete} alt="Delete Icon" className="delete-icon" />
                 </div>
               )}
             </div>

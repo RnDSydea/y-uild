@@ -134,8 +134,8 @@
 }
 
 .overlay-container {
-  position: 'absolute';
-  z-index: 10;
+  position: absolute;
+  
 }
 
 .component-overlay {
@@ -148,7 +148,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  
+  transition: box-shadow 0.3s ease,
 }
 
 .component-overlay:hover{
@@ -158,7 +158,7 @@
 .delete-icon-container {
   position: absolute;
   right: 0;   
-  z-index: 20;
+  z-index: 999;
   border: 1px solid rgb(185, 0, 0);
   top: 50%;
   transform: translateY(-50%);
@@ -171,10 +171,12 @@
   border-radius: 8px;
 }
 
-
 .delete-icon {
   width: 16px;  
   height: 16px;
-  cursor: pointer;
   filter: invert(1);
+}
+
+.delete-icon-container, .delete-icon{
+  cursor: pointer;
 }
