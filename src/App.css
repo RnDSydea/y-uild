@@ -15,6 +15,10 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  /* overflow-y: auto; */
 }
 
 .tile {
@@ -155,11 +159,16 @@
   box-shadow: inset 0 0 0 3px rgba(0, 0, 255, 1);
 }
 
-.delete-icon-container {
+.button-container{
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+}
+
+.delete-icon-container, .move-icon-container {
   position: absolute;
   right: 0;   
   z-index: 999;
-  border: 1px solid rgb(185, 0, 0);
   top: 50%;
   transform: translateY(-50%);
   width: 2rem;
@@ -167,8 +176,17 @@
   justify-content: center;
   align-items: center;
   padding: 0.6rem;
-  background-color: red;
   border-radius: 8px;
+}
+
+.delete-icon-container {
+  border: 1px solid rgb(185, 0, 0);
+  background-color: red;
+}
+
+.move-icon-container {
+  border: 1px solid rgb(0, 59, 185);
+  background-color: rgb(0, 60, 255);
 }
 
 .delete-icon {

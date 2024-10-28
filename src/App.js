@@ -21,8 +21,12 @@ import Comment from './assets/comment-solid.svg'
 import Info from './assets/circle-info-solid.svg'
 import Gear from './assets/gear-solid.svg'
 import Logout from './assets/right-from-bracket-solid.svg'
+import MoveIcon from './assets/arrows-up-down-left-right-solid.svg'
 import Delete from './assets/trash-solid.svg'
 import ComponentsData from './assets/data/components.json'
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { render } from '@testing-library/react';
 
 
 function App() {
@@ -227,6 +231,13 @@ function App() {
     const { lunghezza: newLunghezza, altezza: newAltezza } = draggedComponent;
     const cellsToFill = calculateCellsToFill(index_row, index_col, newLunghezza, newAltezza);
   
+    // Se le celle da riempire superano l'ultima riga, aggiungi una nuova riga
+    const exceedsLastRow = cellsToFill.some((cell) => cell.row >= numRows);
+    if (exceedsLastRow) {
+      setNumRows((prevNumRows) => prevNumRows + 1); // Aggiunge una nuova riga
+      return; // Esci e attendi l'aggiornamento della griglia
+    }
+  
     // Verifica se qualcuna delle celle è occupata
     const isOccupied = cellsToFill.some(
       (cell) => grid[cell.row] && grid[cell.row][cell.columns] && grid[cell.row][cell.columns].componente
@@ -237,7 +248,7 @@ function App() {
       return;
     }
   
-    // rilascio del componente
+    // Rilascia il componente nelle celle
     const newGrid = [...grid];
     cellsToFill.forEach(({ row, columns }) => {
       newGrid[row][columns] = {
@@ -247,67 +258,118 @@ function App() {
         componentId: draggedComponent.componentId,
       };
     });
-
-  const firstCellId = newGrid[cellsToFill[0].row][cellsToFill[0].columns].id;
-  const lastCellId = newGrid[cellsToFill[cellsToFill.length - 1].row][cellsToFill[cellsToFill.length - 1].columns].id;
-
-  const topCell = document.getElementById(firstCellId);
-  const bottomCell = document.getElementById(lastCellId);
-
-  const top = topCell.offsetTop;  
-  const left = topCell.offsetLeft;
-  const bottom = bottomCell.offsetTop + bottomCell.offsetHeight;
-  const right = bottomCell.offsetLeft + bottomCell.offsetWidth; 
-
-  const width = right - left;
-  const height = bottom - top;
-
-  const overlay_component = {
-    id: draggedComponent.componentId,
-    component:draggedComponent.component,
-    componentId: draggedComponent.componentId,
-    top,
-    left,
-    width,
-    height,
+  
+    const firstCellId = newGrid[cellsToFill[0].row][cellsToFill[0].columns].id;
+    const lastCellId = newGrid[cellsToFill[cellsToFill.length - 1].row][cellsToFill[cellsToFill.length - 1].columns].id;
+  
+    const topCell = document.getElementById(firstCellId);
+    const bottomCell = document.getElementById(lastCellId);
+  
+    const top = topCell.offsetTop;
+    const left = topCell.offsetLeft;
+    const bottom = bottomCell.offsetTop + bottomCell.offsetHeight;
+    const right = bottomCell.offsetLeft + bottomCell.offsetWidth;
+  
+    const width = right - left;
+    const height = bottom - top;
+  
+    const overlay_component = {
+      id: draggedComponent.componentId,
+      component: draggedComponent.nome,
+      componentId: draggedComponent.componentId,
+      render: draggedComponent.render,
+      top,
+      left,
+      width,
+      height,
+    };
+  
+    const newPatchObj = [...patchObj];
+    newPatchObj.push(overlay_component);
+  
+    setGrid(newGrid);
+    setDraggedComponent(null);
+    setHighlightsCell([]);
+    setPatchObj(newPatchObj);
   };
+  
 
-  const newPatchObj = [...patchObj];
-  newPatchObj.push(overlay_component);
+  // const handleDragOver = (index_row, index_col) => {
+  //   if (draggedComponent) {
+  //       const { lunghezza, altezza } = draggedComponent;
+  //       const cellHighlightBorder = calculateCellsToFill(index_row, index_col, lunghezza, altezza);
+  //       var newRows = 0;
+  //       console.log(cellHighlightBorder.length);
+        
+  //       if((cellHighlightBorder.length / lunghezza) < altezza){
+  //         newRows = altezza - cellHighlightBorder.length;
+  //       }
 
-  setGrid(newGrid);
-  setDraggedComponent(null);
-  setHighlightsCell([]);
-  setPatchObj(newPatchObj);
-  };
+  //       if(numRows > 34){
+  //         setTempRows(newRows);
+  //         const totalRows = numRows;
+  //         console.log('numero ', totalRows);
+  //         console.log('NUOVE ',newRows);
+  //         setNumRows(totalRows+newRows);
+  //       }
+        
 
+
+  //       const isOccupied = cellHighlightBorder.some(({ row, columns }) => {
+            // Controlla se row e columns sono validi prima di accedere
+//             return grid[row] && grid[row][columns] && grid[row][columns].componente !== null;
+//         });
+
+//         // Imposta la classe per evidenziare celle libere o occupate
+//         if (isOccupied) {
+//             setHighlightsCell(cellHighlightBorder.map(({ row, columns }) => ({
+//                 row,
+//                 columns,
+//                 occupied: true
+//             })));
+//         } else {
+//             setHighlightsCell(cellHighlightBorder.map(({ row, columns }) => ({
+//                 row,
+//                 columns,
+//                 occupied: false
+//             })));
+//         }
+//     } else {
+//         setHighlightsCell([]);
+//     }
+// };
   const handleDragOver = (index_row, index_col) => {
     if (draggedComponent) {
-      const { lunghezza, altezza } = draggedComponent;
-      const cellHighlightBorder = calculateCellsToFill(index_row, index_col, lunghezza, altezza);
-      
-      const isOccupied = cellHighlightBorder.some(({ row, columns }) => {
-        return grid[row][columns].componente !== null;
-      });
-      
-      // Imposta la classe per evidenziare celle libere o occupate
-      if (isOccupied) {
-        setHighlightsCell(cellHighlightBorder.map(({ row, columns }) => ({
-          row,
-          columns,
-          occupied: true
-        })));
-      } else {
-        setHighlightsCell(cellHighlightBorder.map(({ row, columns }) => ({
-          row,
-          columns,
-          occupied: false
-        })));
-      }
+        const { lunghezza, altezza } = draggedComponent;
+        const cellHighlightBorder = calculateCellsToFill(index_row, index_col, lunghezza, altezza);
+        
+        // Calcola il numero totale di righe necessarie
+        const totalNeededRows = index_row + altezza;
+
+        // Se il numero di righe attuali è inferiore a quelle necessarie, aggiorna il numero di righe
+        if (totalNeededRows > numRows) {
+            setNumRows(totalNeededRows);
+        }
+
+        const isOccupied = cellHighlightBorder.some(({ row, columns }) => {
+            // Controlla se row e columns sono validi prima di accedere
+            return grid[row] && grid[row][columns] && grid[row][columns].componente !== null;
+        });
+
+        // Imposta la classe per evidenziare celle libere o occupate
+        const highlights = cellHighlightBorder.map(({ row, columns }) => ({
+            row,
+            columns,
+            occupied: isOccupied,
+        }));
+
+        setHighlightsCell(highlights);
     } else {
-      setHighlightsCell([]);
+        setHighlightsCell([]);
     }
   };
+
+
 
   const handleDragLeave = () => {
     setHighlightsCell([]);
@@ -316,14 +378,18 @@ function App() {
   const calculateCellsToFill = (index_row, index_col, lunghezza, altezza) => {
     const cells = [];
     for (let i = 0; i < altezza; i++) {
-      for (let j = 0; j < lunghezza; j++) {
-        const cellIndex_row = index_row + i;
-        const cellIndex_col = index_col + j;
-        cells.push({ row: cellIndex_row, columns: cellIndex_col });
-      }
+        for (let j = 0; j < lunghezza; j++) {
+            const cellIndex_row = index_row + i;
+            const cellIndex_col = index_col + j;
+
+            // Aggiungi solo celle valide (all'interno dei limiti della griglia)
+            if (cellIndex_row < numRows && cellIndex_col < numColumns) {
+                cells.push({ row: cellIndex_row, columns: cellIndex_col });
+            }
+        }
     }
     return cells;
-  };
+};
 
   const handlePatchClick = (index) => {
     const newPatchObj = patchObj.map((patch, i) => ({
@@ -335,14 +401,21 @@ function App() {
   };
   
   const handleOutsideClick = (event) => {
-    if (!event.target.closest('.component-overlay')) {
-      const newPatchObj = patchObj.map((patch) => ({
-        ...patch,
-        selected: false
-      }));
-      setPatchObj(newPatchObj);
-      document.removeEventListener('click', handleOutsideClick); 
+    // Verifica se il clic è stato fatto all'esterno di un componente
+    const isClickOutside = !event.target.closest('.component-overlay');
+    if (isClickOutside) {
+      deselectComponent();
+      document.removeEventListener('click', handleOutsideClick);
     }
+  };
+  
+  const deselectComponent = () => {
+    setPatchObj((prevPatchObj) =>
+      prevPatchObj.map((patch) => ({
+        ...patch,
+        selected: false,
+      }))
+    );
   };
   
   useEffect(() => {
@@ -389,14 +462,44 @@ function App() {
     event.stopPropagation();
     handleDeletePatch(index);
   };
-  
 
+  const generateHtmlFile = (component) => {
+    const htmlTemplate = `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>${component.nome}</title>
+        </head>
+        <body>
+          <p>Hai scaricato il componente: ${component.nome}, che ha come id  ${component.id} </p>
+          ${component.render}
+        </body>
+      </html>`;
+    
+    return htmlTemplate;
+  };
+  
+  const handleDownloadZip = () => {
+    const zip = new JSZip();
+  
+    patchObj.forEach((component) => {
+      const fileName = `test.html`;
+      const htmlContent = generateHtmlFile(component);
+      zip.file(fileName, htmlContent);
+    });
+  
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      saveAs(content, 'components.zip');
+    });
+  };
 
   const buttonComponent = {
     nome: 'Button',
     lunghezza: 2,
     altezza: 1,
-    render: () => <Button label="Primary" onClick={() => alert('Button clicked!')} />,
+    render: '<Button label="Primary" /> ',
   };
 
   return (
@@ -424,7 +527,7 @@ function App() {
 
       <div className="drag-and-drop-container">
         <div className='btn-download-container'>
-            <Button label="Scarica il codice" />
+            <Button label="Scarica il codice" onClick={handleDownloadZip} />
         </div>
         <div className='yuild-container'>
           {grid.map((row, index_row) => (
@@ -474,8 +577,13 @@ function App() {
               />
               
               {overlay.selected && (
-                <div className="delete-icon-container" style={{ left: `calc(${overlay.width}px + 10px)`}} onClick={(e) => handleDeletePatchClick(e, index)}>
-                  <img src={Delete} alt="Delete Icon" className="delete-icon" />
+                <div className='button-container'>
+                  <div className="move-icon-container" style={{ left: `calc(${overlay.width}px + 10px)`}} onClick={() => alert('Button clicked!')}>
+                    <img src={MoveIcon} alt="Move Icon" className="delete-icon"  />
+                  </div>
+                  <div className="delete-icon-container" style={{ left: `calc(${overlay.width}px + 5rem)`}} onClick={(e) => handleDeletePatchClick(e, index)}>
+                    <img src={Delete} alt="Delete Icon" className="delete-icon" />
+                  </div>
                 </div>
               )}
             </div>
