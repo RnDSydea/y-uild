@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './button.css';
 
-const Button = ({ label, onClick, variant = 'default', disabled = false ,theme = 'sap' }) => {
+const Button = ({ label, onClick, variant = 'default', disabled = false , theme = 'sap', spacing = {} }) => {
   /*useEffect(() => {
     const btnMaterialDefault = document.querySelectorAll(".material-button-default");
     btnMaterialDefault.forEach((btn)=> {
@@ -25,6 +25,45 @@ const Button = ({ label, onClick, variant = 'default', disabled = false ,theme =
       });
     });
   }, []); */
+
+  const getMargin = (margin) => {
+    if (typeof margin === 'string' || typeof margin === 'number') {
+      const trimmedMargin = String(margin).trim();
+      const numMargin = parseFloat(trimmedMargin);
+      if (!isNaN(numMargin) && numMargin.toString() === trimmedMargin) {
+        return `${numMargin}px`;
+      }
+      return trimmedMargin;
+    }
+    return '0px';
+  };
+
+  const getPadding = (padding) => {
+    if (typeof padding === 'string' || typeof padding === 'number') {
+      const trimmedPadding = String(padding).trim();
+      const numPadding = parseFloat(trimmedPadding);
+      if (!isNaN(numPadding) && numPadding.toString() === trimmedPadding) {
+        return `${numPadding}px`;
+      }
+      return trimmedPadding;
+    }
+    return '0px';
+  };
+  
+  const yuildComponentStyle = spacing && Object.keys(spacing).length > 0 ? {
+    margin: getMargin(spacing?.margin?.all) || '',
+    marginLeft: spacing?.margin?.all ? '' : getMargin(spacing?.margin?.left),
+    marginRight: spacing?.margin?.all ? '' : getMargin(spacing?.margin?.right),
+    marginTop: spacing?.margin?.all ? '' : getMargin(spacing?.margin?.top),
+    marginBottom: spacing?.margin?.all ? '' : getMargin(spacing?.margin?.bottom),
+    
+    padding: getPadding(spacing?.padding?.all) || '',
+    paddingLeft: spacing?.padding?.all ? '' : getPadding(spacing?.padding?.left),
+    paddingRight: spacing?.padding?.all ? '' : getPadding(spacing?.padding?.right),
+    paddingTop: spacing?.padding?.all ? '' : getPadding(spacing?.padding?.top),
+    paddingBottom: spacing?.padding?.all ? '' : getPadding(spacing?.padding?.bottom),
+  } : {};
+
   useEffect(() => {
     if (theme === 'material') {
       const buttons = document.querySelectorAll(`[class^="material-button"]`);
@@ -78,10 +117,12 @@ const Button = ({ label, onClick, variant = 'default', disabled = false ,theme =
   return (
     <button 
       className={buttonClass} 
-      onClick={onClick} 
+      // onClick={onClick} 
       disabled={disabled}
     //   variant={variant}
       type='button'
+      // style={{ marginLeft: ml }}
+      style={yuildComponentStyle} 
     >
       {label}
     </button>

@@ -4,9 +4,11 @@
     font-size: 0.875rem;
     border-radius: .5rem;
     cursor: pointer;
-    border: none;
+    border: 1px solid transparent;
     transition: background-color 0.2s ease-in-out;
     font-weight: bold;
+    box-sizing: border-box;
+    clip-path: border-box;
 }
 
 /*Default*/  

@@ -17,10 +17,10 @@ const Select = ({ options = [], onChange, label = '', variant = 'default', disab
   const chevronDownBtn =  `${theme}-chevronDown-btn`;
   const dropdownClass = `${theme}-select-dropdown`;
   const optionClass = `${theme}-select-option`;
-  const labelContainer = {marginTop: label ? '0' : '21px'};
+  // const labelContainer = {marginTop: label ? '0' : '21px'};
 
   return (
-    <div style={labelContainer}>
+    <div>
         {label && (
           // <label className={`${theme}-input-label-${variant}`}>
           <label className='select-label'>

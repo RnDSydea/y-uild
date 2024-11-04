@@ -12,10 +12,10 @@
   /*SAP Style*/
 
   .sap-input-container {
-    margin-bottom: 16px;
+    /* margin-bottom: 16px;
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    width: 20vw; */
   }
   
   .sap-input-label {
@@ -217,7 +217,7 @@
 .material-input-container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
 }
 
 .material-input-label {
