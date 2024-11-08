@@ -23,7 +23,8 @@ import Drawer from "../../components/drawer/drawer";
 // import Gear from '../assets/gear-solid.svg'
 // import Logout from '../assets/right-from-bracket-solid.svg'
 // import MoveIcon from '../assets/arrows-up-down-left-right-solid.svg'
-// import TrashIcon from '../assets/trash-solid.svg';
+// import TrashIcon from '../../assets/trash-solid.svg';
+import DownloadIcon from '../../assets/download-icon.svg';
 import ComponentsData from "../../assets/data/components.json";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
@@ -528,16 +529,8 @@ export const Home = () => {
   return (
     <div>
       <div className="yuild-header">
-        <div className="btn-download-container">
+        <div className="y-d-flex y-gap-4 y-align-items-center">
           <img src={YuildLogoLight} className="yuild-logo-header" />
-          <a
-            href="https://github.com/RnDSydea/y-uild"
-            target="_blank"
-            className="y-d-flex y-align-items-center y-gap-2 y-link"
-          >
-            <img src={GithubLogo} alt="Github" className="logo-github" />
-            <span>Github</span>
-          </a>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
             <span>Editor mode</span>
             <div className="yuild-toggle-container">
@@ -555,11 +548,12 @@ export const Home = () => {
           </div>
           <Button
             label="Go to Library UI"
-            theme="material"
+            theme="sap"
             onClick={() => navigateToLibrary()}
+            disabled
           />
         </div>
-        <Select 
+        {/* <Select 
             options={[
               { value: 'option1', label: 'Option 1' },
               { value: 'option2', label: 'Option 2' },
@@ -568,11 +562,35 @@ export const Home = () => {
             // onChange={handleSelectChange} 
             variant="default" 
             theme="material"
-          />
-        <div className="btn-download-container">
-          <Button label="Show Editor" onClick={handleDownloadZip} />
+          /> */}
+        <div className="y-d-flex y-gap-4 y-align-items-center">
+          <Button label="Show Editor" onClick={handleDownloadZip} disabled/>
           <Button label="Clear" onClick={clearAll} />
-          <Button label="Scarica il codice" onClick={handleDownloadZip} />
+          <button className="btn-header-yuild" onClick={handleDownloadZip}>
+            <img src={DownloadIcon} className="img-logo-btn"></img>
+          </button>
+          <div className="y-d-flex y-align-items-center y-gap-2">
+            <a
+              href="https://github.com/RnDSydea/y-uild"
+              target="_blank"
+              className="y-d-flex y-align-items-center y-gap-2 y-link"
+            >
+              <img src={GithubLogo} alt="Github" className="logo-github" />
+              </a>
+              <span className="y-d-flex y-align-items-center y-gap-2">by </span>
+              <a href="https://www.sydea.com" target="_blank">
+                <span className="y-d-flex" style={{width:'60px'}}>
+                  <svg id="Livello_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 772 188.18">
+                    <path d="M451.1,57v76.3c0,14.2-2.8,25.3-8.4,33.1-5.6,7.8-14.8,13.3-27.5,16.5s-30.3,4.8-52.9,4.8h-88.6v-68.8l43.6-66.5v103.2h43c12.3,0,21.7-.5,27.9-1.6,6.3-1.1,10.8-3.1,13.6-6.2,2.8-3.1,4.2-7.9,4.2-14.5V56.1c0-8.9-3.5-15.1-10.5-18.7-6.6-3.4-16.9-5.1-30.8-5.3h-.8l-71.2.1-48.8,79.7v75.8h-45.1v-75.2l-48.8-80.7c-31.3.1-68.8.4-76.7.4-15.2,0,1.5.1-7.4.1-12.2,0-20.7,10-20.7,15.8v10.5c0,9.8,8.3,14.8,24.9,14.8h38.1c21.4,0,36.9,3.9,46.5,11.9,9.6,7.9,14.5,19.9,14.5,36.1v12.4c0,22.4-4.2,35.9-16.2,44.6-10.8,7.7-26.4,9.2-36.9,9.2-9.5,0-14.3.7-28,.5-16.5-.1-56.9.3-88-.1v-30c31.9,0,77.5.1,89.5.1,21.6,0,34.5.8,34.5-19.4v-12.1c0-6.2-1.8-10.9-5.4-14.2-3.6-3.3-10-4.9-19.2-4.9h-37.6C20.6,107.5,0,91.1,0,58.3v-13.9C0,28,6.8,16,20.5,8.3,34.2.6,34.8.3,64.5.3h66.4l-.1-.1h51.2l39.6,73.4L260.9.2h101.2c6.2,0,12,.1,17.5.4,13.9.7,25.4,2.2,34.6,4.6,12.7,3.4,22.1,9.2,28,17.5,5.9,8.2,8.9,19.6,8.9,34.3Z" style={{fill: '#f6f6f6'}}/>
+                    <polygon points="573.8 150.1 573.8 187.7 463.7 187.7 463.7 123.1 501.5 123.1 501.5 150.1 573.8 150.1" style={{fill: '#f6f6f6'}}/>
+                    <path d="M598.1,123.1l-23.9,64.5h44.5l21.6-64.5h-42.2ZM742.9,123.1h-44l21.6,64.5h45.7l-23.3-64.5ZM698.5,0h-54.9l-33.6,91h41.2l17.9-53.4h1.1l17.9,53.4h43.3L698.5,0Z" style={{fill: '#f6f6f6'}}/>
+                    <polygon points="574.2 0 574.2 37.6 501.5 37.6 501.5 91 463.7 91 463.7 0 574.2 0" style={{fill: '#f6f6f6'}}/>
+                    <polygon points="501.5 123.1 501.5 91 573.9 91 573.9 48.9 598.2 123.1 501.5 123.1" style={{fill: '#fece2f'}}/>
+                    <polygon points="772 123.1 640.4 123.1 651.2 91 760.4 91 772 123.1" style={{fill: '#fece2f'}} />
+                  </svg>
+                </span>
+            </a>
+          </div>
         </div>
       </div>
 
