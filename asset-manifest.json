@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/y-uild/static/css/main.0dce55d3.css",
-    "main.js": "/y-uild/static/js/main.aefeda99.js",
+    "main.js": "/y-uild/static/js/main.83bd58bf.js",
     "static/js/453.fd2b3029.chunk.js": "/y-uild/static/js/453.fd2b3029.chunk.js",
     "static/media/yuild-logo-light.svg": "/y-uild/static/media/yuild-logo-light.335d9e295a7808e2d4be3761f56d2cbe.svg",
     "static/media/gear-solid.svg": "/y-uild/static/media/gear-solid.0d170579c1e397e19e20dcee9db5daec.svg",
@@ -21,11 +21,11 @@
     "static/media/check-solid.svg": "/y-uild/static/media/check-solid.dfd4e3b89199fb78ffa7c2a75e74249e.svg",
     "static/media/chevron-down-solid.svg": "/y-uild/static/media/chevron-down-solid.79d81965807ebaf4751fdc49e7912b18.svg",
     "main.0dce55d3.css.map": "/y-uild/static/css/main.0dce55d3.css.map",
-    "main.aefeda99.js.map": "/y-uild/static/js/main.aefeda99.js.map",
+    "main.83bd58bf.js.map": "/y-uild/static/js/main.83bd58bf.js.map",
     "453.fd2b3029.chunk.js.map": "/y-uild/static/js/453.fd2b3029.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0dce55d3.css",
-    "static/js/main.aefeda99.js"
+    "static/js/main.83bd58bf.js"
   ]
 }
