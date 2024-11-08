@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+![yuild-hero](https://github.com/user-attachments/assets/a07dbc80-8b8a-4290-aa8f-e116c5e90206)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Yuild 🚀
 
-## Available Scripts
+Yuild is a web app that makes building websites easy and intuitive by allowing users to drag and drop custom components.
 
-In the project directory, you can run:
+Users can configure and personalize each component and download the generated React code for seamless integration into their own projects.
 
-### `npm start`
+## Features ✨
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Drag-and-Drop Building**: Quickly drag and place components into your page layout.
+- **Custom Components**: Each component is fully customizable to match your desired style and functionality.
+- **React Code Export**: Download the generated React code for the website you've built.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Requirements 🛠️
 
-### `npm test`
+To run Yuild locally, you’ll need:
+- [Node.js](https://nodejs.org/) v14 or higher
+- [npm](https://www.npmjs.com/) v6 or higher
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation 📥
 
-### `npm run build`
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/RnDSydea/y-uild.git
+    cd yuild
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Start the app in development mode:
+    ```bash
+    npm run start
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app will be running at `http://localhost:3000`.
 
-### `npm run eject`
+## Usage 🎨
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Drag Components**: Select and drag components into the layout area to start building.
+2. **Customize Components**: Configure each component's properties to match your style and functionality needs.
+3. **Export Code**: When finished, download the generated React code with the export feature.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing 🤝
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Want to contribute to Yuild? Here’s how:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Fork the project.
+2. Create a new branch:
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
+3. Add your changes.
+4. Commit your changes:
+    ```bash
+    git commit -m "Add feature/your-feature-name"
+    ```
+5. Push to the branch:
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+6. Open a pull request on GitHub.
 
-## Learn More
+## License 📄
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
