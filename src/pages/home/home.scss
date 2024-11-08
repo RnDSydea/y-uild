@@ -25,6 +25,7 @@
     background: #262626;
     padding: 1rem;
     clip-path: border-box;
+    overflow: auto;
   }
   
   .tile {
@@ -79,7 +80,6 @@
   
   .drag-and-drop-container {
     width: 70%;
-    background-color: rgb(255, 255, 255);
     padding: 0rem 1.5rem;
     margin-top: 1rem;
   }
@@ -135,7 +135,7 @@
   }
 
   .grid-cell.editable{
-    border: 1px solid #f6f6f6;
+    border: 0.5px solid #f6f6f6;
   }
   
   /* .grid-cell:hover{
@@ -153,78 +153,6 @@
     background-color: #ae00008c;
   }
   
-  .yuild-row {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .yuild-container {
-    position: relative;
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  
-  [class*="yuild-col-"] {
-    position: relative;
-    width: 100%;
-  }
-  /* .yuild-col-1 {
-    flex: 0 0 8.33%;
-    max-width: 8.33%;
-  } */
-
-  .yuild-col-1 {
-    flex: 0 0 4.16%;
-    max-width: 4.16%;
-  }
-  
-  .yuild-col-2 {
-    flex: 0 0 16.66%;
-    max-width: 16.66%;
-  }
-
-  .yuild-col-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
-  }
-  .yuild-col-4 {
-    flex: 0 0 33.33%;
-    max-width: 33.33%;
-  }
-  .yuild-col-5 {
-    flex: 0 0 41.66%;
-    max-width: 41.66%;
-  }
-  .yuild-col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-  .yuild-col-7 {
-    flex: 0 0 58.33%;
-    max-width: 58.33%;
-  }
-  .yuild-col-8 {
-    flex: 0 0 66.66%;
-    max-width: 66.66%;
-  }
-  .yuild-col-9 {
-    flex: 0 0 75%;
-    max-width: 75%;
-  }
-  .yuild-col-10 {
-    flex: 0 0 83.33%;
-    max-width: 83.33%;
-  }
-  .yuild-col-11 {
-    flex: 0 0 91.66%;
-    max-width: 91.66%;
-  }
-  .yuild-col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-  
   .title {
     float: left;
   }
@@ -238,16 +166,29 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    background: orange;
+    /* background: orange; */
     display: flex;
     justify-content: start;
     align-items: center;
     cursor: pointer;
     transition: box-shadow 0.3s ease;
+    &::after{
+      content: '';
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9999999;
+      &:hover {
+        border: 1px solid green;
+      }
+    }
   }
   
   .component-overlay:hover {
-    box-shadow: inset 0 0 0 3px rgba(0, 0, 255, 1);
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 255, 1);
   }
   .component-overlay.selected {
     filter: drop-shadow(2px 4px 6px #b5b5b5);
@@ -277,10 +218,13 @@
   
   .trash-icon {
     fill: #cd0000;
+    width: 15px;
+    height: auto;
+    cursor: pointer;
     transition: all 0.3s ease-in-out;
-  }
-  .trash-icon:hover {
-    fill: #dc0000;
+    &:hover {
+      fill: #dc0000;
+    }
   }
   
   .drag-sel-icon {
@@ -353,6 +297,7 @@
   
   .props-comp-label{
     font-size: 0.7rem;
+    margin: 0;
     margin-bottom: 0.3rem;
   }
   
@@ -479,4 +424,82 @@
 .yuild-toggle-checkbox:checked + .yuild-toggle-switch .yuild-toggle-slider {
   left: calc(50% - 27px/2 + 10px);
   top: calc(50% - 27px/2);
+}
+
+.logo-github{
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.key-item-component{
+  margin: 0;
+  color: #f6f6f6;
+  text-transform: capitalize;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.row-key-component{
+  padding: 1rem 0;
+  &:first-child{
+    padding-top: 0;
+  }
+}
+
+.btn-toggle{
+  background: #262626;
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #f6f6f6;
+  padding: 0.5rem;
+  color: #f6f6f6;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: bold;
+  &:hover{
+    background: #141414;
+  }
+  &.selected{
+    background: #fece2f;
+    color: #141414;
+    border-color: #fece2f;
+  }
+}
+
+.color-picker-container {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.3rem;
+
+  input[type="color"] {
+    margin-right: 8px;
+    -webkit-appearance: none;
+    border: none;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    background: none;
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+      width: 30px;
+      height: 30px;
+    }
+    &::-webkit-color-swatch {
+      border: 1px solid #bfc9d9;
+      padding: 0;
+    }
+  }
+
+  input[type="text"] {
+    border: none;
+    width: 100%;
+  }
+}
+
+.yuild-logo-header{
+  height: 50px;
+  width: auto;
 }

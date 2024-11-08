@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './dialog.css';
-import xmark from '../../../assets/xmark-solid.svg'
+import xmark from '../../assets/xmark-solid.svg'
 import { ThemeProvider } from './themeContext';
 
 const Dialog = ({ theme = 'sap', children, onClose}) => {

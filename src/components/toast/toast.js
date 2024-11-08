@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import './toast.css';
-import xmark from '../../../assets/xmark-solid.svg';
-import success from '../../../assets/check-solid.svg';
-import warning from '../../../assets/triangle-exclamation-solid.svg';
-import info from '../../../assets/info-solid.svg';
+import xmark from '../../assets/xmark-solid.svg';
+import success from '../../assets/check-solid.svg';
+import warning from '../../assets/triangle-exclamation-solid.svg';
+import info from '../../assets/info-solid.svg';
 
 const Toast = ({ message, variant = 'default', theme = 'sap', position = '' }) => {
   const [isVisible, setIsVisible] = useState(true);

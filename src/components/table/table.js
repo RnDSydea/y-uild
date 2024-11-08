@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './table.css';
-import ArrowUp from '../../../assets/arrow-up-solid.svg'
-import ArrowDown from '../../../assets/arrow-down-solid.svg'
+import ArrowUp from '../../assets/arrow-up-solid.svg'
+import ArrowDown from '../../assets/arrow-down-solid.svg'
 
 const Table = ({ theme = 'sap', columns, data }) => {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'ascending' });

@@ -1,6 +1,6 @@
 /*SAP STYLE*/
 .checkbox-wrapper{
-    display: flex;
+    display: inline-flex;
 }
 
 .sap-checkbox-default,

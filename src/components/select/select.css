@@ -274,6 +274,7 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    background-color: #fff;
 }
 
 .material-select-dropdown{
@@ -282,6 +283,9 @@
   border-radius: 4px !important;
   background-color: #fff !important;  
   border: 1px solid #556B82;
+  position: absolute;
+  z-index: 1021;
+  color: #000;
 }
 
 .material-select-option{

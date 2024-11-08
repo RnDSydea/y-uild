@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import Button from './components/input/button/button';
-import Input from './components/input/input/input';
-import TextArea from './components/input/textArea/textArea';
-import RadioButton from './components/input/radio/radio';
-import Checkbox from './components/input/checkbox/checkbox';
-import Select from './components/input/select/select';
-import Toast from './components/input/toast/toast';
-import Card from './components/input/card/card';
-import YuildHeader from './components/input/yUildHeader/yUildHeader';
-import YuildBody from './components/input/yUildBody/yUildBody';
-import YuildFooter from './components/input/yUildFooter/yUildFooter';
-import Alert from './components/input/alert/alert';
-import Table from './components/input/table/table';
+import Button from './components/asadsad/button/button';
+import Input from './components/asadsad/input/input';
+import TextArea from './components/asadsad/textArea/textArea';
+import RadioButton from './components/asadsad/radio/radio';
+import Checkbox from './components/asadsad/checkbox/checkbox';
+import Select from './components/asadsad/select/select';
+import Toast from './components/asadsad/toast/toast';
+import Card from './components/asadsad/card/card';
+import YuildHeader from './components/asadsad/yUildHeader/yUildHeader';
+import YuildBody from './components/asadsad/yUildBody/yUildBody';
+import YuildFooter from './components/asadsad/yUildFooter/yUildFooter';
+import Alert from './components/asadsad/alert/alert';
+import Table from './components/asadsad/table/table';
 import './App.css'
-import Dialog from './components/input/dialog/dialog';
-import Drawer from './components/input/drawer/drawer';
+import Dialog from './components/asadsad/dialog/dialog';
+import Drawer from './components/asadsad/drawer/drawer';
 import Home from './assets/house-solid.svg'
 import User from './assets/user-solid.svg'
 import Comment from './assets/comment-solid.svg'
@@ -590,19 +590,19 @@ function App() {
         </div>
 
         <div className="drag-and-drop-container">
-          <div className='yuild-container box-page'>
+          <div className='y-container box-page'>
             {grid.map((row, index_row) => (
-              <div className='yuild-row' key={index_row}>
+              <div className='y-row' key={index_row}>
                 {row.map((cell, index_cell) => (
                   <div
-                    // className={`grid-cell ${highlightsCell.find((e)=>e.row === index_row && e.columns===index_cell) ? 'highlight' : ''} yuild-col-${cell.lunghezza}`}
+                    // className={`grid-cell ${highlightsCell.find((e)=>e.row === index_row && e.columns===index_cell) ? 'highlight' : ''} y-col-${cell.lunghezza}`}
                     className={`grid-cell ${
                       highlightsCell.find((e) => e.row === index_row && e.columns === index_cell) 
                         ? highlightsCell.find((e) => e.row === index_row && e.columns === index_cell).occupied 
                           ? 'occupied' 
                           : 'highlight' 
                         : ''
-                    } yuild-col-1`}
+                    } y-col-1`}
                     key={index_cell}
                     id={cell.id}
                     onDragOver={(e) => {

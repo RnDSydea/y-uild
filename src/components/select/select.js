@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import chevronDown from '../../../assets/chevron-down-solid.svg';
+import chevronDown from '../../assets/chevron-down-solid.svg';
 import './select.css';
 
 const Select = ({ options = [], onChange, label = '', variant = 'default', disabled = false, readOnly = false,theme = 'sap' }) => {

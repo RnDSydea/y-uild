@@ -6,7 +6,7 @@ const RadioButton = ({ checked, onChange, label, variant = 'default', disabled =
   const radioClass = `${theme}-radio-${variant} ${disabled ? `${theme}-radio-${variant}-disabled` : ''}`;
 
   return (
-    <div className="radio-wrapper">
+    <div className="y-d-inline-flex">
       <input
         className={radioClass}
         type="radio"

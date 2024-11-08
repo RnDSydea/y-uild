@@ -117,7 +117,7 @@ const Button = ({ label, onClick, variant = 'default', disabled = false , theme 
   return (
     <button 
       className={buttonClass} 
-      // onClick={onClick} 
+      onClick={onClick} 
       disabled={disabled}
     //   variant={variant}
       type='button'

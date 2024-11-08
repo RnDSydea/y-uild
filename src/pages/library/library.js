@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import './library.css';
-import Button from "../../components/input/button/button";
-import Input from '../../components/input/input/input';
-import TextArea from '../../components/input/textArea/textArea';
-import RadioButton from '../../components/input/radio/radio';
-import Checkbox from '../../components/input/checkbox/checkbox';
-import Select from '../../components/input/select/select';
-import Toast from '../../components/input/toast/toast';
-import Card from '../../components/input/card/card';
-import YuildHeader from '../../components/input/yUildHeader/yUildHeader';
-import YuildBody from '../../components/input/yUildBody/yUildBody';
-import YuildFooter from '../../components/input/yUildFooter/yUildFooter';
-import Alert from '../../components/input/alert/alert';
-import Table from '../../components/input/table/table';
-import Dialog from '../../components/input/dialog/dialog';
-import Drawer from '../../components/input/drawer/drawer';
+import './library.scss';
+import Button from "../../components/button/button";
+import Input from '../../components/input/input';
+import TextArea from '../../components/textArea/textArea';
+import RadioButton from '../../components/radio/radio';
+import Checkbox from '../../components/checkbox/checkbox';
+import Select from '../../components/select/select';
+import Toast from '../../components/toast/toast';
+import Card from '../../components/card/card';
+import YuildHeader from '../../components/yUildHeader/yUildHeader';
+import YuildBody from '../../components/yUildBody/yUildBody';
+import YuildFooter from '../../components/yUildFooter/yUildFooter';
+import Alert from '../../components/alert/alert';
+import Table from '../../components/table/table';
+import Dialog from '../../components/dialog/dialog';
+import Drawer from '../../components/drawer/drawer';
 import HomeIcon from '../../assets/house-solid.svg'
 import User from '../../assets/user-solid.svg'
 import Comment from '../../assets/comment-solid.svg'
